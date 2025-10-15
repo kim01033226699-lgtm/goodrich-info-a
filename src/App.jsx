@@ -44,7 +44,7 @@ function App() {
   }
 
   return (
-    <Router basename="/Grant-info">
+    <Router basename="/goodrich-info-a">
       <Routes>
         <Route path="/" element={<UserPage config={config} />} />
         <Route path="/admin" element={<AdminPage config={config} onUpdateConfig={updateConfig} />} />
