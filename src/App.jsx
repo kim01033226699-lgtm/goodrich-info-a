@@ -14,7 +14,7 @@ function App() {
 
   const loadConfig = async () => {
     try {
-      const response = await fetch('/config.json');
+      const response = await fetch('./config.json');
       const data = await response.json();
       setConfig(data);
     } catch (error) {
