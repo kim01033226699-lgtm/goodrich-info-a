@@ -12,24 +12,10 @@ function MenuPage() {
     },
     {
       id: 2,
-      title: '지원금 메뉴 2',
-      description: '준비 중입니다',
-      path: '#',
-      available: false
-    },
-    {
-      id: 3,
-      title: '지원금 메뉴 3',
-      description: '준비 중입니다',
-      path: '#',
-      available: false
-    },
-    {
-      id: 4,
-      title: '지원금 메뉴 4',
-      description: '준비 중입니다',
-      path: '#',
-      available: false
+      title: 'M-Project',
+      description: '위임 자격 및 지원금 계산',
+      path: '/m-project',
+      available: true
     }
   ];
 
