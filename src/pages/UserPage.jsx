@@ -88,7 +88,6 @@ function UserPage({ config }) {
           <p className="subtitle">단계별로 정보를 입력하시면 예상 지원금을 확인하실 수 있습니다</p>
           <div className="header-links">
             <Link to="/" className="home-link">홈으로</Link>
-            <Link to="/admin" className="admin-link">관리자 페이지</Link>
           </div>
         </div>
       </header>
