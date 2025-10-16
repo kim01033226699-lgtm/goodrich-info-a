@@ -340,7 +340,7 @@ function MProjectPage({ config }) {
 
               {qualified === false && (
                 <div className="qualification-result warning">
-                  <p className="result-message">입력한 내용이 당사 규정을 충족하지 못했습니다. 위임을 위해서는 입력 사항을 확인해 주시고 계속 진행하여 예상 금액은 확인할 수 있습니다.</p>
+                  <p className="result-message">입력내용이 당사 규정을 충족하지 못했습니다. 추가로 회사 승인이 필요합니다. 계속진행하여 예상금액을 확인할 수 있습니다.</p>
                   <button onClick={() => setStep(2)} className="btn-secondary">계속 진행</button>
                 </div>
               )}
