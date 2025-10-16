@@ -21,6 +21,9 @@
   --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* 💡 기본 폰트 크기 (데스크탑 기준) */
+  font-size: 16px;
 }
 
 body {
@@ -28,6 +31,7 @@ body {
   color: var(--text-color);
   background-color: var(--bg-light);
   min-height: 100vh;
+  font-size: 1rem; /* 16px */
 }
 
 #root {
@@ -62,4 +66,29 @@ a {
 
 a:hover {
   color: var(--primary-hover);
+}
+
+/* 📱 반응형 폰트 크기 설정 */
+@media (max-width: 1024px) {
+  :root {
+    font-size: 15px; /* 태블릿 */
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px; /* 작은 태블릿 / 큰 모바일 */
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 13px; /* 스마트폰 */
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    font-size: 12px; /* 초소형 디바이스 */
+  }
 }
