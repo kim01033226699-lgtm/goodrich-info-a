@@ -158,6 +158,53 @@ function AdminPage({ config: initialConfig, onUpdateConfig }) {
     updateConfig('documents', config.documents.filter(d => d.id !== id));
   };
 
+  // M-Project - Qualification Criteria
+  const updateQualificationCriteria = (position, field, value) => {
+    const updated = config.mProject.qualificationCriteria.map(item =>
+      item.position === position ? { ...item, [field]: value } : item
+    );
+    updateConfig('mProject', { ...config.mProject, qualificationCriteria: updated });
+  };
+
+  // M-Project - Grade Criteria
+  const updateGradeCriteria = (position, grade, value) => {
+    const updated = config.mProject.gradeCriteria.map(item =>
+      item.position === position ? { ...item, grades: { ...item.grades, [grade]: value } } : item
+    );
+    updateConfig('mProject', { ...config.mProject, gradeCriteria: updated });
+  };
+
+  // M-Project - Support Criteria
+  const updateSupportCriteria = (position, grade, field, value) => {
+    const updated = config.mProject.supportCriteria.map(item => {
+      if (item.position === position) {
+        return {
+          ...item,
+          supports: {
+            ...item.supports,
+            [grade]: { ...item.supports[grade], [field]: value }
+          }
+        };
+      }
+      return item;
+    });
+    updateConfig('mProject', { ...config.mProject, supportCriteria: updated });
+  };
+
+  // M-Project - Checkbox Labels
+  const updateCheckboxLabel = (index, value) => {
+    const updated = [...config.mProject.checkboxLabels];
+    updated[index] = value;
+    updateConfig('mProject', { ...config.mProject, checkboxLabels: updated });
+  };
+
+  // M-Project - Notice Texts
+  const updateNoticeText = (index, value) => {
+    const updated = [...config.mProject.noticeTexts];
+    updated[index] = value;
+    updateConfig('mProject', { ...config.mProject, noticeTexts: updated });
+  };
+
   if (!config) {
     return <div className="loading">로딩 중...</div>;
   }
@@ -210,6 +257,12 @@ function AdminPage({ config: initialConfig, onUpdateConfig }) {
                 onClick={() => setActiveTab('other')}
               >
                 기타 설정
+              </button>
+              <button
+                className={`tab-button ${activeTab === 'mProject' ? 'active' : ''}`}
+                onClick={() => setActiveTab('mProject')}
+              >
+                M-Project
               </button>
             </nav>
           </aside>
@@ -487,6 +540,219 @@ function AdminPage({ config: initialConfig, onUpdateConfig }) {
                         onChange={(e) => updateConfig('financialGuarantee', e.target.value)}
                         rows="5"
                       />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* M-Project */}
+            {activeTab === 'mProject' && config.mProject && (
+              <div className="admin-section">
+                <h2>M-Project 설정</h2>
+
+                {/* Qualification Criteria */}
+                <div style={{ marginBottom: '3rem' }}>
+                  <h3 style={{ marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '2px solid #4f46e5', color: '#4f46e5' }}>자격 기준표</h3>
+                  <div className="items-list">
+                    {config.mProject.qualificationCriteria.map(item => (
+                      <div key={item.position} className="item-card">
+                        <h4 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: '700' }}>{item.position}</h4>
+                        <div className="item-fields">
+                          <div className="field">
+                            <label>경력</label>
+                            <input
+                              type="text"
+                              value={item.career}
+                              onChange={(e) => updateQualificationCriteria(item.position, 'career', e.target.value)}
+                            />
+                          </div>
+                          <div className="field">
+                            <label>기간</label>
+                            <input
+                              type="text"
+                              value={item.period}
+                              onChange={(e) => updateQualificationCriteria(item.position, 'period', e.target.value)}
+                            />
+                          </div>
+                          <div className="field">
+                            <label>최소 소득 (원)</label>
+                            <input
+                              type="text"
+                              value={formatNumber(item.income)}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(/,/g, '');
+                                if (value === '' || /^\d+$/.test(value)) {
+                                  updateQualificationCriteria(item.position, 'income', Number(value));
+                                }
+                              }}
+                            />
+                          </div>
+                          <div className="field">
+                            <label>최소 인원 (명)</label>
+                            <input
+                              type="number"
+                              value={item.members}
+                              onChange={(e) => updateQualificationCriteria(item.position, 'members', Number(e.target.value))}
+                              min="0"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Grade Criteria */}
+                <div style={{ marginBottom: '3rem' }}>
+                  <h3 style={{ marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '2px solid #4f46e5', color: '#4f46e5' }}>등급 기준표</h3>
+                  <div className="items-list">
+                    {config.mProject.gradeCriteria.map(item => (
+                      <div key={item.position} className="item-card">
+                        <h4 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: '700' }}>{item.position}</h4>
+                        <div className="item-fields">
+                          {Object.keys(item.grades).map(grade => (
+                            <div key={grade} className="field">
+                              <label>Grade {grade} 기준 소득 (원)</label>
+                              <input
+                                type="text"
+                                value={formatNumber(item.grades[grade])}
+                                onChange={(e) => {
+                                  const value = e.target.value.replace(/,/g, '');
+                                  if (value === '' || /^\d+$/.test(value)) {
+                                    updateGradeCriteria(item.position, grade, Number(value));
+                                  }
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Support Criteria */}
+                <div style={{ marginBottom: '3rem' }}>
+                  <h3 style={{ marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '2px solid #4f46e5', color: '#4f46e5' }}>지원금 기준표</h3>
+                  <div className="items-list">
+                    {config.mProject.supportCriteria.map(item => (
+                      <div key={item.position} style={{ marginBottom: '2rem' }}>
+                        <h4 style={{ marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700', color: '#1f2937' }}>{item.position}</h4>
+                        {Object.keys(item.supports).map(grade => (
+                          <div key={grade} className="item-card" style={{ marginBottom: '1rem' }}>
+                            <h5 style={{ marginBottom: '1rem', fontSize: '1.1rem', fontWeight: '600', color: '#4f46e5' }}>Grade {grade}</h5>
+                            <div className="item-fields">
+                              <div className="field">
+                                <label>월 업적 목표 (원)</label>
+                                <input
+                                  type="text"
+                                  value={formatNumber(item.supports[grade].monthly)}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(/,/g, '');
+                                    if (value === '' || /^\d+$/.test(value)) {
+                                      updateSupportCriteria(item.position, grade, 'monthly', Number(value));
+                                    }
+                                  }}
+                                />
+                              </div>
+                              <div className="field">
+                                <label>연간 업적 목표 (원)</label>
+                                <input
+                                  type="text"
+                                  value={formatNumber(item.supports[grade].yearly)}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(/,/g, '');
+                                    if (value === '' || /^\d+$/.test(value)) {
+                                      updateSupportCriteria(item.position, grade, 'yearly', Number(value));
+                                    }
+                                  }}
+                                />
+                              </div>
+                              <div className="field">
+                                <label>월 지원금 (원)</label>
+                                <input
+                                  type="text"
+                                  value={formatNumber(item.supports[grade].monthlySupport)}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(/,/g, '');
+                                    if (value === '' || /^\d+$/.test(value)) {
+                                      updateSupportCriteria(item.position, grade, 'monthlySupport', Number(value));
+                                    }
+                                  }}
+                                />
+                              </div>
+                              <div className="field">
+                                <label>총 지원금 (원)</label>
+                                <input
+                                  type="text"
+                                  value={formatNumber(item.supports[grade].total)}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(/,/g, '');
+                                    if (value === '' || /^\d+$/.test(value)) {
+                                      updateSupportCriteria(item.position, grade, 'total', Number(value));
+                                    }
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Checkbox Labels */}
+                <div style={{ marginBottom: '3rem' }}>
+                  <h3 style={{ marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '2px solid #4f46e5', color: '#4f46e5' }}>체크박스 문구</h3>
+                  <div className="item-card">
+                    <div className="item-fields">
+                      {config.mProject.checkboxLabels.map((label, index) => (
+                        <div key={index} className="field full-width">
+                          <label>체크박스 {index + 1}</label>
+                          <input
+                            type="text"
+                            value={label}
+                            onChange={(e) => updateCheckboxLabel(index, e.target.value)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Text Settings */}
+                <div style={{ marginBottom: '3rem' }}>
+                  <h3 style={{ marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '2px solid #4f46e5', color: '#4f46e5' }}>안내 문구</h3>
+                  <div className="item-card">
+                    <div className="item-fields">
+                      <div className="field full-width">
+                        <label>Step 2 안내 문구</label>
+                        <textarea
+                          value={config.mProject.step2InfoText}
+                          onChange={(e) => updateConfig('mProject', { ...config.mProject, step2InfoText: e.target.value })}
+                          rows="3"
+                        />
+                      </div>
+                      <div className="field full-width">
+                        <label>보너스 안내 문구 (&#123;grade&#125;는 등급으로 자동 치환됩니다)</label>
+                        <textarea
+                          value={config.mProject.bonusText}
+                          onChange={(e) => updateConfig('mProject', { ...config.mProject, bonusText: e.target.value })}
+                          rows="2"
+                        />
+                      </div>
+                      {config.mProject.noticeTexts.map((text, index) => (
+                        <div key={index} className="field full-width">
+                          <label>안내사항 {index + 1}</label>
+                          <input
+                            type="text"
+                            value={text}
+                            onChange={(e) => updateNoticeText(index, e.target.value)}
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>

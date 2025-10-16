@@ -104,5 +104,144 @@
     }
   ],
   "calculationMethod": "지원금은 입력하신 소득 금액에 소득 구간별 지원 비율을 적용하여 산정됩니다.\n\n예시: 소득 3,000만원, 지원 비율 20%의 경우\n- 입력 소득: 30,000,000원\n- 소득 구간 비율: 20% (300만원 초과)\n- 최종 지원금: 30,000,000원 × 20% = 6,000,000원",
-  "financialGuarantee": "정착교육비를 지급받고자 하는 경우 기본 수수료 보증보험과 별개로 지급금액 전액에 해당하는 재정보증을 회사에 제공하여야 합니다.\n- 재정보증은 보증보험, 예금질권, 근저당권에 한하여 인정합니다.\n- 재정보증을 제공할 수 없는 경우 정착교육비 신청이 불가합니다."
+  "financialGuarantee": "정착교육비를 지급받고자 하는 경우 기본 수수료 보증보험과 별개로 지급금액 전액에 해당하는 재정보증을 회사에 제공하여야 합니다.\n- 재정보증은 보증보험, 예금질권, 근저당권에 한하여 인정합니다.\n- 재정보증을 제공할 수 없는 경우 정착교육비 신청이 불가합니다.",
+  "mProject": {
+    "qualificationCriteria": [
+      {
+        "position": "본부장",
+        "career": "본부장",
+        "period": "1년",
+        "income": 80000000,
+        "members": 30
+      },
+      {
+        "position": "사업단장",
+        "career": "관리자",
+        "period": "2년",
+        "income": 60000000,
+        "members": 15
+      },
+      {
+        "position": "지점장",
+        "career": "보험영업",
+        "period": "2년이상",
+        "income": 40000000,
+        "members": 4
+      }
+    ],
+    "gradeCriteria": [
+      {
+        "position": "본부장",
+        "grades": {
+          "S": 150000000,
+          "A": 120000000,
+          "B": 96000000
+        }
+      },
+      {
+        "position": "사업단장",
+        "grades": {
+          "S": 96000000,
+          "A": 96000000,
+          "B": 96000000
+        }
+      },
+      {
+        "position": "지점장",
+        "grades": {
+          "S": 96000000,
+          "A": 96000000,
+          "B": 96000000
+        }
+      }
+    ],
+    "supportCriteria": [
+      {
+        "position": "본부장",
+        "supports": {
+          "S": {
+            "monthly": 30000000,
+            "yearly": 360000000,
+            "monthlySupport": 8000000,
+            "total": 96000000
+          },
+          "A": {
+            "monthly": 24000000,
+            "yearly": 288000000,
+            "monthlySupport": 7000000,
+            "total": 84000000
+          },
+          "B": {
+            "monthly": 20000000,
+            "yearly": 240000000,
+            "monthlySupport": 5000000,
+            "total": 60000000
+          }
+        }
+      },
+      {
+        "position": "사업단장",
+        "supports": {
+          "S": {
+            "monthly": 15000000,
+            "yearly": 180000000,
+            "monthlySupport": 7000000,
+            "total": 84000000
+          },
+          "A": {
+            "monthly": 12000000,
+            "yearly": 144000000,
+            "monthlySupport": 5000000,
+            "total": 60000000
+          },
+          "B": {
+            "monthly": 9000000,
+            "yearly": 108000000,
+            "monthlySupport": 4000000,
+            "total": 48000000
+          }
+        }
+      },
+      {
+        "position": "지점장",
+        "supports": {
+          "S": {
+            "monthly": 5000000,
+            "yearly": 60000000,
+            "monthlySupport": 5000000,
+            "total": 60000000
+          },
+          "A": {
+            "monthly": 4000000,
+            "yearly": 48000000,
+            "monthlySupport": 4000000,
+            "total": 48000000
+          },
+          "B": {
+            "monthly": 3500000,
+            "yearly": 42000000,
+            "monthlySupport": 3000000,
+            "total": 36000000
+          },
+          "C": {
+            "monthly": 3000000,
+            "yearly": 36000000,
+            "monthlySupport": 2000000,
+            "total": 24000000
+          }
+        }
+      }
+    ],
+    "checkboxLabels": [
+      "타사에서 징계의 이유로 해임되지 않은 자",
+      "최근 3년간 3회 이상 회사를 이동하지 않은 자",
+      "금융기관 등에 채무 불이행자는 입사 불가"
+    ],
+    "step2InfoText": "동반 위촉 산하 조직 전원의 직전 1년 보험영업 소득 합계액을 입력하세요.",
+    "noticeTexts": [
+      "6개월 선지급 가능 (재정보증 필수)",
+      "내부 규정으로 Grade 상향은 불가합니다."
+    ],
+    "bonusText": "Grade {grade}의 경우 본인 직전1년 소득의 10% 추가 지급되었습니다."
+  }
 }
