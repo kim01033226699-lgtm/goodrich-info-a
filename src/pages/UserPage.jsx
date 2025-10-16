@@ -41,11 +41,14 @@ function UserPage({ config }) {
     });
   };
 
-  const handleCalculate = () => {
-    const calculationResult = calculateSupport(Number(income), config);
-    setResult(calculationResult);
-    setStep(4);
-  };
+const handleCalculate = () => {
+  // 💡 입력된 금액(만원 단위)을 원단위로 변환
+  const incomeInWon = Number(income) * 10000;
+
+  const calculationResult = calculateSupport(incomeInWon, config);
+  setResult(calculationResult);
+  setStep(4);
+};
 
   const handleReset = () => {
     setStep(1);
@@ -137,7 +140,7 @@ function UserPage({ config }) {
                     className="income-input"
                     required
                   />
-                  <span className="input-suffix">원</span>
+                  <span className="input-suffix">만 원</span>
                 </div>
                 <button type="submit" className="btn-primary btn-large">다음 단계</button>
               </form>
