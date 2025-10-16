@@ -95,6 +95,17 @@ function MProjectPage({ config }) {
       alert('자격 기준 데이터를 찾을 수 없습니다. 페이지를 새로고침해주세요.');
       return;
     }
+  // ✅ 입력된 만원 단위를 원단위로 변환
+  const incomeNum = Number(income) * 10000;
+  const membersNum = Number(members);
+
+  console.log('입력값(원단위 변환):', { career, period, income: incomeNum, members: membersNum });
+
+  const careerPeriodMatch = criteria.careerOptions?.some(option => {
+    const careerMatch = career === option.career;
+    const periodMatch = comparePeriod(period, option.minPeriod);
+    return careerMatch && periodMatch;
+  }) || false;
 
     const incomeNum = Number(income);
     const membersNum = Number(members);
@@ -128,68 +139,67 @@ function MProjectPage({ config }) {
     }
   };
 
-  const calculateGrade = () => {
-    if (!teamIncome) {
-      alert('소득을 입력해주세요.');
-      return;
-    }
+const calculateGrade = () => {
+  if (!teamIncome) {
+    alert('소득을 입력해주세요.');
+    return;
+  }
 
-    const teamIncomeNum = Number(teamIncome);
+  // ✅ 만원 → 원 변환
+  const teamIncomeNum = Number(teamIncome) * 10000;
 
-    // config에서 직접 찾기
-    const gradeConfig = config?.mProject?.gradeCriteria?.find(
-      item => item.position === position
-    );
+  const gradeConfig = config?.mProject?.gradeCriteria?.find(
+    item => item.position === position
+  );
+  const supportConfig = config?.mProject?.supportCriteria?.find(
+    item => item.position === position
+  );
 
-    const supportConfig = config?.mProject?.supportCriteria?.find(
-      item => item.position === position
-    );
+  if (!gradeConfig || !supportConfig) {
+    alert('등급 기준 데이터를 찾을 수 없습니다.');
+    return;
+  }
 
-    if (!gradeConfig || !supportConfig) {
-      alert('등급 기준 데이터를 찾을 수 없습니다.');
-      return;
-    }
+  const criteria = gradeConfig.grades;
+  let calculatedGrade = '';
 
-    const criteria = gradeConfig.grades;
+  if (teamIncomeNum >= criteria.S) {
+    calculatedGrade = 'S';
+  } else if (teamIncomeNum >= criteria.A) {
+    calculatedGrade = 'A';
+  } else if (teamIncomeNum >= criteria.B) {
+    calculatedGrade = 'B';
+  } else {
+    calculatedGrade = 'C';
+  }
 
-    let calculatedGrade = '';
-    if (teamIncomeNum >= criteria.S) {
-      calculatedGrade = 'S';
-    } else if (teamIncomeNum >= criteria.A) {
-      calculatedGrade = 'A';
-    } else if (teamIncomeNum >= criteria.B) {
-      calculatedGrade = 'B';
-    } else {
-      calculatedGrade = 'C';
-    }
+  setGrade(calculatedGrade);
 
-    setGrade(calculatedGrade);
+  const supportData = supportConfig.supports[calculatedGrade];
+  if (!supportData) {
+    alert(`${calculatedGrade} 등급의 지원금 데이터를 찾을 수 없습니다.`);
+    return;
+  }
 
-    // 결과 계산
-    const supportData = supportConfig.supports[calculatedGrade];
+  let totalSupport = supportData.total;
 
-    if (!supportData) {
-      alert(`${calculatedGrade} 등급의 지원금 데이터를 찾을 수 없습니다.`);
-      return;
-    }
+  // ✅ 원단위 변환된 소득 사용
+  const incomeInWon = Number(income) * 10000;
 
-    let totalSupport = supportData.total;
+  if (calculatedGrade === 'S' || calculatedGrade === 'A') {
+    totalSupport += Math.floor(incomeInWon * 0.1);
+  }
 
-    // Grade S, A의 경우 본인 직전1년 소득의 10% 추가지급
-    if (calculatedGrade === 'S' || calculatedGrade === 'A') {
-      totalSupport += Math.floor(Number(income) * 0.1);
-    }
+  setResult({
+    position,
+    grade: calculatedGrade,
+    ...supportData,
+    totalSupport,
+    bonusApplied: (calculatedGrade === 'S' || calculatedGrade === 'A')
+  });
 
-    setResult({
-      position,
-      grade: calculatedGrade,
-      ...supportData,
-      totalSupport,
-      bonusApplied: (calculatedGrade === 'S' || calculatedGrade === 'A')
-    });
-
-    setStep(3);
-  };
+  setStep(3);
+};
 
   const handleReset = () => {
     setStep(1);
