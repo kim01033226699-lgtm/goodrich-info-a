@@ -127,7 +127,7 @@ function UserPage({ config }) {
           {/* Step 1: Income Input */}
           {step === 1 && (
             <div className="step-card fade-in">
-              <h2 className="step-title">월 소득을 입력해주세요</h2>
+              <h2 className="step-title">연소득을 입력해주세요</h2>
               <form onSubmit={handleIncomeSubmit} className="income-form">
                 <div className="input-group">
                   <input
