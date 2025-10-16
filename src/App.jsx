@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import MenuPage from './pages/MenuPage';
 import UserPage from './pages/UserPage';
 import AdminPage from './pages/AdminPage';
 import './App.css';
@@ -46,7 +47,8 @@ function App() {
   return (
     <Router basename="/goodrich-info-a">
       <Routes>
-        <Route path="/" element={<UserPage config={config} />} />
+        <Route path="/" element={<MenuPage />} />
+        <Route path="/settlement-education" element={<UserPage config={config} />} />
         <Route path="/admin" element={<AdminPage config={config} onUpdateConfig={updateConfig} />} />
       </Routes>
     </Router>

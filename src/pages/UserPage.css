@@ -32,6 +32,14 @@
   margin-bottom: 1rem;
 }
 
+.header-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.home-link,
 .admin-link {
   display: inline-block;
   color: white;
@@ -39,10 +47,11 @@
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-size: 0.9rem;
-  margin-top: 0.5rem;
   transition: all 0.2s ease;
+  text-decoration: none;
 }
 
+.home-link:hover,
 .admin-link:hover {
   background: rgba(255, 255, 255, 0.3);
   color: white;
