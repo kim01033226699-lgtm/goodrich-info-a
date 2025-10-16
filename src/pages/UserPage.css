@@ -184,7 +184,7 @@
 
 .income-input:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 156, 0, 0.1);
 }
 
 .input-suffix {
@@ -257,7 +257,7 @@
 
 .type-card.selected {
   border-color: var(--primary-color);
-  background: rgba(79, 70, 229, 0.05);
+  background: rgba(255, 156, 0, 0.05);
   box-shadow: var(--shadow-md);
 }
 
@@ -301,7 +301,7 @@
 
 .option-card.selected {
   border-color: var(--primary-color);
-  background: rgba(79, 70, 229, 0.05);
+  background: rgba(255, 156, 0, 0.05);
   box-shadow: var(--shadow-md);
 }
 
@@ -569,7 +569,7 @@
 .goals-notice {
   margin-top: 1.5rem;
   padding: 1rem 1.5rem;
-  background: rgba(79, 70, 229, 0.05);
+  background: rgba(255, 156, 0, 0.05);
   border-left: 4px solid var(--primary-color);
   border-radius: 6px;
   font-size: 0.95rem;

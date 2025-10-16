@@ -38,7 +38,7 @@
 .select-input:focus,
 .text-input:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 156, 0, 0.1);
 }
 
 .input-suffix {
@@ -114,7 +114,7 @@
 
 /* Info Box */
 .info-box {
-  background: rgba(79, 70, 229, 0.05);
+  background: rgba(255, 156, 0, 0.05);
   border-left: 4px solid var(--primary-color);
   padding: 1.5rem;
   border-radius: 8px;

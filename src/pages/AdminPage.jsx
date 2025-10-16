@@ -6,6 +6,7 @@ import './AdminPage.css';
 function AdminPage({ config: initialConfig, onUpdateConfig }) {
   const [config, setConfig] = useState(null);
   const [activeTab, setActiveTab] = useState('incomeRanges');
+  const [settlementOpen, setSettlementOpen] = useState(true);
 
   useEffect(() => {
     if (initialConfig) {
@@ -229,34 +230,51 @@ function AdminPage({ config: initialConfig, onUpdateConfig }) {
           <aside className="admin-sidebar">
             <nav className="tab-nav">
               <button
-                className={`tab-button ${activeTab === 'incomeRanges' ? 'active' : ''}`}
-                onClick={() => setActiveTab('incomeRanges')}
+                className="tab-button tab-parent"
+                onClick={() => setSettlementOpen(!settlementOpen)}
               >
-                소득 구간
+                <span>정착교육비</span>
+                <span style={{ marginLeft: 'auto' }}>{settlementOpen ? '▼' : '▶'}</span>
               </button>
+              {settlementOpen && (
+                <>
+                  <button
+                    className={`tab-button tab-child ${activeTab === 'incomeRanges' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('incomeRanges')}
+                  >
+                    소득 구간
+                  </button>
+                  <button
+                    className={`tab-button tab-child ${activeTab === 'types' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('types')}
+                  >
+                    타입
+                  </button>
+                  <button
+                    className={`tab-button tab-child ${activeTab === 'options' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('options')}
+                  >
+                    목표 설정
+                  </button>
+                  <button
+                    className={`tab-button tab-child ${activeTab === 'documents' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('documents')}
+                  >
+                    준비 서류
+                  </button>
+                  <button
+                    className={`tab-button tab-child ${activeTab === 'other' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('other')}
+                  >
+                    기타 설정
+                  </button>
+                </>
+              )}
               <button
-                className={`tab-button ${activeTab === 'types' ? 'active' : ''}`}
-                onClick={() => setActiveTab('types')}
+                className={`tab-button ${activeTab === 'menuSettings' ? 'active' : ''}`}
+                onClick={() => setActiveTab('menuSettings')}
               >
-                타입
-              </button>
-              <button
-                className={`tab-button ${activeTab === 'options' ? 'active' : ''}`}
-                onClick={() => setActiveTab('options')}
-              >
-                목표 설정
-              </button>
-              <button
-                className={`tab-button ${activeTab === 'documents' ? 'active' : ''}`}
-                onClick={() => setActiveTab('documents')}
-              >
-                준비 서류
-              </button>
-              <button
-                className={`tab-button ${activeTab === 'other' ? 'active' : ''}`}
-                onClick={() => setActiveTab('other')}
-              >
-                기타 설정
+                메뉴 제목
               </button>
               <button
                 className={`tab-button ${activeTab === 'mProject' ? 'active' : ''}`}
@@ -540,6 +558,75 @@ function AdminPage({ config: initialConfig, onUpdateConfig }) {
                         onChange={(e) => updateConfig('financialGuarantee', e.target.value)}
                         rows="5"
                       />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Menu Settings */}
+            {activeTab === 'menuSettings' && config.pageMetadata && (
+              <div className="admin-section">
+                <h2>메뉴 제목 및 설명 관리</h2>
+
+                {/* Settlement Education */}
+                <div style={{ marginBottom: '3rem' }}>
+                  <h3 style={{ marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '2px solid var(--primary-color)', color: 'var(--primary-color)' }}>정착교육비</h3>
+                  <div className="item-card">
+                    <div className="item-fields">
+                      <div className="field full-width">
+                        <label>페이지 제목</label>
+                        <input
+                          type="text"
+                          value={config.pageMetadata.settlement?.title || ''}
+                          onChange={(e) => updateConfig('pageMetadata', {
+                            ...config.pageMetadata,
+                            settlement: { ...config.pageMetadata.settlement, title: e.target.value }
+                          })}
+                        />
+                      </div>
+                      <div className="field full-width">
+                        <label>페이지 부제목</label>
+                        <input
+                          type="text"
+                          value={config.pageMetadata.settlement?.subtitle || ''}
+                          onChange={(e) => updateConfig('pageMetadata', {
+                            ...config.pageMetadata,
+                            settlement: { ...config.pageMetadata.settlement, subtitle: e.target.value }
+                          })}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* M-Project */}
+                <div style={{ marginBottom: '3rem' }}>
+                  <h3 style={{ marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '2px solid var(--primary-color)', color: 'var(--primary-color)' }}>M-Project</h3>
+                  <div className="item-card">
+                    <div className="item-fields">
+                      <div className="field full-width">
+                        <label>페이지 제목</label>
+                        <input
+                          type="text"
+                          value={config.pageMetadata.mProject?.title || ''}
+                          onChange={(e) => updateConfig('pageMetadata', {
+                            ...config.pageMetadata,
+                            mProject: { ...config.pageMetadata.mProject, title: e.target.value }
+                          })}
+                        />
+                      </div>
+                      <div className="field full-width">
+                        <label>페이지 부제목</label>
+                        <input
+                          type="text"
+                          value={config.pageMetadata.mProject?.subtitle || ''}
+                          onChange={(e) => updateConfig('pageMetadata', {
+                            ...config.pageMetadata,
+                            mProject: { ...config.pageMetadata.mProject, subtitle: e.target.value }
+                          })}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

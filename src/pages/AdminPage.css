@@ -127,6 +127,22 @@
   font-weight: 600;
 }
 
+.tab-button.tab-parent {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.tab-button.tab-parent:hover {
+  background: var(--bg-light);
+}
+
+.tab-button.tab-child {
+  padding-left: 2rem;
+  font-size: 0.9rem;
+}
+
 /* Main Content */
 .admin-content {
   flex: 1;

@@ -84,11 +84,10 @@ function UserPage({ config }) {
       {/* Header */}
       <header className="header">
         <div className="container">
-          <h1 className="title">정착교육비 안내</h1>
-          <p className="subtitle">단계별로 정보를 입력하시면 예상 지원금을 확인하실 수 있습니다</p>
+          <h1 className="title">{config?.pageMetadata?.settlement?.title || '정착교육비 안내'}</h1>
+          <p className="subtitle">{config?.pageMetadata?.settlement?.subtitle || '단계별로 정보를 입력하시면 예상 지원금을 확인하실 수 있습니다'}</p>
           <div className="header-links">
             <Link to="/" className="home-link">홈으로</Link>
-            <Link to="/admin" className="admin-link">관리자 페이지</Link>
           </div>
         </div>
       </header>

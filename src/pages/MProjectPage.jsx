@@ -62,6 +62,18 @@ function MProjectPage({ config }) {
     setChecks(newChecks);
   };
 
+  // 기간 비교 함수
+  const comparePeriod = (inputPeriod, minPeriod) => {
+    const periodMap = { '1년': 1, '2년': 2, '2년이상': 2 };
+    const inputValue = periodMap[inputPeriod] || 0;
+    const minValue = periodMap[minPeriod] || 0;
+
+    if (minPeriod === '2년이상') {
+      return inputValue >= 2;
+    }
+    return inputValue >= minValue;
+  };
+
   const checkQualification = () => {
     if (!position || !career || !period || !income || !members) {
       alert('모든 항목을 입력해주세요.');
@@ -73,18 +85,47 @@ function MProjectPage({ config }) {
       return;
     }
 
-    const qualificationCriteria = getQualificationCriteria();
-    const criteria = qualificationCriteria[position];
+    // config에서 직접 찾기
+    const criteria = config?.mProject?.qualificationCriteria?.find(
+      item => item.position === position
+    );
+
+    if (!criteria) {
+      console.error('자격 기준을 찾을 수 없습니다:', position, config?.mProject?.qualificationCriteria);
+      alert('자격 기준 데이터를 찾을 수 없습니다. 페이지를 새로고침해주세요.');
+      return;
+    }
+
     const incomeNum = Number(income);
     const membersNum = Number(members);
 
-    const isQualified =
-      career === criteria.career &&
-      period === criteria.period &&
-      incomeNum >= criteria.income &&
-      membersNum >= criteria.members;
+    // 디버깅 로그
+    console.log('입력값:', JSON.stringify({ career, period, income: incomeNum, members: membersNum }, null, 2));
+    console.log('기준값:', JSON.stringify(criteria, null, 2));
+
+    // 경력과 기간 조합 체크 (careerOptions 중 하나라도 맞으면 OK)
+    const careerPeriodMatch = criteria.careerOptions?.some(option => {
+      const careerMatch = career === option.career;
+      const periodMatch = comparePeriod(period, option.minPeriod);
+      console.log(`경력/기간 체크: "${career}" === "${option.career}" && "${period}" >= "${option.minPeriod}" = ${careerMatch && periodMatch}`);
+      return careerMatch && periodMatch;
+    }) || false;
+
+    const incomeMatch = incomeNum >= criteria.income;
+    const membersMatch = membersNum >= criteria.members;
+
+    console.log('매칭 결과:', JSON.stringify({ careerPeriodMatch, incomeMatch, membersMatch }, null, 2));
+    console.log('소득 매칭:', `${incomeNum} >= ${criteria.income} = ${incomeMatch}`);
+    console.log('인원 매칭:', `${membersNum} >= ${criteria.members} = ${membersMatch}`);
+
+    const isQualified = careerPeriodMatch && incomeMatch && membersMatch;
 
     setQualified(isQualified);
+
+    // 자격 충족 시 자동으로 다음 단계로 이동
+    if (isQualified) {
+      setStep(2);
+    }
   };
 
   const calculateGrade = () => {
@@ -94,8 +135,22 @@ function MProjectPage({ config }) {
     }
 
     const teamIncomeNum = Number(teamIncome);
-    const gradeCriteria = getGradeCriteria();
-    const criteria = gradeCriteria[position];
+
+    // config에서 직접 찾기
+    const gradeConfig = config?.mProject?.gradeCriteria?.find(
+      item => item.position === position
+    );
+
+    const supportConfig = config?.mProject?.supportCriteria?.find(
+      item => item.position === position
+    );
+
+    if (!gradeConfig || !supportConfig) {
+      alert('등급 기준 데이터를 찾을 수 없습니다.');
+      return;
+    }
+
+    const criteria = gradeConfig.grades;
 
     let calculatedGrade = '';
     if (teamIncomeNum >= criteria.S) {
@@ -111,8 +166,13 @@ function MProjectPage({ config }) {
     setGrade(calculatedGrade);
 
     // 결과 계산
-    const supportCriteria = getSupportCriteria();
-    const supportData = supportCriteria[position][calculatedGrade];
+    const supportData = supportConfig.supports[calculatedGrade];
+
+    if (!supportData) {
+      alert(`${calculatedGrade} 등급의 지원금 데이터를 찾을 수 없습니다.`);
+      return;
+    }
+
     let totalSupport = supportData.total;
 
     // Grade S, A의 경우 본인 직전1년 소득의 10% 추가지급
@@ -167,8 +227,8 @@ function MProjectPage({ config }) {
       {/* Header */}
       <header className="header">
         <div className="container">
-          <h1 className="title">M-Project</h1>
-          <p className="subtitle">위임 자격 및 지원금 계산</p>
+          <h1 className="title">{config?.pageMetadata?.mProject?.title || 'M-Project'}</h1>
+          <p className="subtitle">{config?.pageMetadata?.mProject?.subtitle || '위임 자격 및 지원금 계산'}</p>
           <div className="header-links">
             <Link to="/" className="home-link">홈으로</Link>
           </div>
@@ -217,11 +277,10 @@ function MProjectPage({ config }) {
               </div>
 
               <div className="form-group">
-                <label>본인 경력</label>
+                <label>본인 경력(보험회사&GA)</label>
                 <select value={career} onChange={(e) => setCareer(e.target.value)} className="select-input">
                   <option value="">선택하세요</option>
-                  <option value="본부장">본부장</option>
-                  <option value="관리자">관리자</option>
+                  <option value="본부장 or 관리자">본부장 or 관리자</option>
                   <option value="보험영업">보험영업</option>
                 </select>
               </div>
@@ -279,19 +338,10 @@ function MProjectPage({ config }) {
                 <button onClick={checkQualification} className="btn-primary btn-large">자격 확인</button>
               </div>
 
-              {qualified !== null && (
-                <div className={`qualification-result ${qualified ? 'success' : 'warning'}`}>
-                  {qualified ? (
-                    <>
-                      <p className="result-message">✓ 위임 자격 요건을 충족합니다.</p>
-                      <button onClick={() => setStep(2)} className="btn-primary">다음 단계</button>
-                    </>
-                  ) : (
-                    <>
-                      <p className="result-message">⚠ 당사 정책에 자격에 맞지 않습니다. 계속 진행하시겠습니까?</p>
-                      <button onClick={() => setStep(2)} className="btn-secondary">계속 진행</button>
-                    </>
-                  )}
+              {qualified === false && (
+                <div className="qualification-result warning">
+                  <p className="result-message">입력한 내용이 당사 규정을 충족하지 못했습니다. 위임을 위해서는 입력 사항을 확인해 주시고 계속 진행하여 예상 금액은 확인할 수 있습니다.</p>
+                  <button onClick={() => setStep(2)} className="btn-secondary">계속 진행</button>
                 </div>
               )}
             </div>

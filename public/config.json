@@ -77,6 +77,16 @@
     }
   ],
   "baseAmount": 1000000,
+  "pageMetadata": {
+    "settlement": {
+      "title": "정착교육비 안내",
+      "subtitle": "단계별로 정보를 입력하시면 예상 지원금을 확인하실 수 있습니다"
+    },
+    "mProject": {
+      "title": "M-Project",
+      "subtitle": "위임 자격 및 지원금 계산"
+    }
+  },
   "documents": [
     {
       "id": 1,
@@ -103,28 +113,32 @@
       "description": ""
     }
   ],
-  "calculationMethod": "지원금은 입력하신 소득 금액에 소득 구간별 지원 비율을 적용하여 산정됩니다.\n\n예시: 소득 3,000만원, 지원 비율 20%의 경우\n- 입력 소득: 30,000,000원\n- 소득 구간 비율: 20% (300만원 초과)\n- 최종 지원금: 30,000,000원 × 20% = 6,000,000원",
+  "calculationMethod": "지원금은 입력하신 소득 금액에 소득 구간별 지원 비율을 적용하여 산정됩니다.자세한 적용 규정은 시행문 또는 담당자에게 문의하시기 바랍니다.",
   "financialGuarantee": "정착교육비를 지급받고자 하는 경우 기본 수수료 보증보험과 별개로 지급금액 전액에 해당하는 재정보증을 회사에 제공하여야 합니다.\n- 재정보증은 보증보험, 예금질권, 근저당권에 한하여 인정합니다.\n- 재정보증을 제공할 수 없는 경우 정착교육비 신청이 불가합니다.",
   "mProject": {
     "qualificationCriteria": [
       {
         "position": "본부장",
-        "career": "본부장",
-        "period": "1년",
+        "careerOptions": [
+          { "career": "본부장 or 관리자", "minPeriod": "2년이상" }
+        ],
         "income": 80000000,
         "members": 30
       },
       {
         "position": "사업단장",
-        "career": "관리자",
-        "period": "2년",
+        "careerOptions": [
+          { "career": "본부장 or 관리자", "minPeriod": "1년" }
+        ],
         "income": 60000000,
         "members": 15
       },
       {
         "position": "지점장",
-        "career": "보험영업",
-        "period": "2년이상",
+        "careerOptions": [
+          { "career": "보험영업", "minPeriod": "1년" },
+          { "career": "본부장 or 관리자", "minPeriod": "1년" }
+        ],
         "income": 40000000,
         "members": 4
       }

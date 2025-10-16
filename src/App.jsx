@@ -51,7 +51,7 @@ function App() {
         <Route path="/" element={<MenuPage />} />
         <Route path="/settlement-education" element={<UserPage config={config} />} />
         <Route path="/m-project" element={<MProjectPage config={config} />} />
-        <Route path="/admin" element={<AdminPage config={config} onUpdateConfig={updateConfig} />} />
+        <Route path="/djemals" element={<AdminPage config={config} onUpdateConfig={updateConfig} />} />
       </Routes>
     </Router>
   );
