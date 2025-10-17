@@ -418,6 +418,43 @@
   color: var(--primary-color);
 }
 
+/* Option Selection */
+.option-selection-section {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.select-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background: var(--bg-color);
+  cursor: pointer;
+}
+
+.select-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(255, 156, 0, 0.1);
+  outline: none;
+}
+
+.goal-amount-display {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-align: center;
+  padding: 2rem;
+  background: var(--bg-section);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
 /* Payment and Goals */
 .payment-section,
 .goals-section {

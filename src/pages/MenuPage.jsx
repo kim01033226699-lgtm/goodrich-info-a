@@ -12,7 +12,7 @@ function MenuPage() {
     },
     {
       id: 2,
-      title: 'M-Project',
+      title: '영업관리자 지원금',
       description: '위임 자격 및 지원금 계산',
       path: '/m-project',
       available: true
