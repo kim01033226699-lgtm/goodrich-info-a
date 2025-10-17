@@ -77,6 +77,8 @@ function UserPage({ config }) {
                 <div className="input-group">
                   <input
                     type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     value={displayIncome}
                     onChange={handleIncomeChange}
                     placeholder="0"

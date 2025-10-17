@@ -277,6 +277,8 @@ function MProjectPage({ config }) {
                 <label>본인 직전 1년 소득</label>
                 <input
                   type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   value={displayIncome}
                   onChange={(e) => handleIncomeChange(e, setIncome, setDisplayIncome)}
                   placeholder="0"
@@ -289,6 +291,8 @@ function MProjectPage({ config }) {
                 <label>산하조직소득합계(본인포함)</label>
                 <input
                   type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   value={displayTeamIncome}
                   onChange={(e) => handleIncomeChange(e, setTeamIncome, setDisplayTeamIncome)}
                   placeholder="0"
@@ -312,8 +316,8 @@ function MProjectPage({ config }) {
               </div>
 
               <div className="button-group">
-                <button onClick={handleReset} className="btn-secondary">처음부터 다시하기</button>
                 <button onClick={checkQualification} className="btn-primary btn-large">지원금 확인</button>
+                <button onClick={handleReset} className="btn-secondary">다시하기</button>
               </div>
             </div>
           )}
@@ -355,7 +359,7 @@ function MProjectPage({ config }) {
                 </div>
               </div>
 
-              <button onClick={handleReset} className="btn-secondary btn-large">처음부터 다시하기</button>
+              <button onClick={handleReset} className="btn-secondary btn-large">다시하기</button>
             </div>
           )}
         </div>
