@@ -64,7 +64,7 @@ function MProjectPage({ config }) {
 
   // 기간 비교 함수
   const comparePeriod = (inputPeriod, minPeriod) => {
-    const periodMap = { '1년': 1, '2년': 2, '2년이상': 2 };
+    const periodMap = { '1년이상': 1, '2년이상': 2 };
     const inputValue = periodMap[inputPeriod] || 0;
     const minValue = periodMap[minPeriod] || 0;
 
@@ -75,7 +75,7 @@ function MProjectPage({ config }) {
   };
 
   const checkQualification = () => {
-    if (!position || !career || !period || !income || !members) {
+    if (!position || !career || !period || !income || !members || !teamIncome) {
       alert('모든 항목을 입력해주세요.');
       return;
     }
@@ -95,24 +95,13 @@ function MProjectPage({ config }) {
       alert('자격 기준 데이터를 찾을 수 없습니다. 페이지를 새로고침해주세요.');
       return;
     }
-  // ✅ 입력된 만원 단위를 원단위로 변환
-  const incomeNum = Number(income) * 10000;
-  const membersNum = Number(members);
 
-  console.log('입력값(원단위 변환):', { career, period, income: incomeNum, members: membersNum });
-
-  const careerPeriodMatch = criteria.careerOptions?.some(option => {
-    const careerMatch = career === option.career;
-    const periodMatch = comparePeriod(period, option.minPeriod);
-    return careerMatch && periodMatch;
-  }) || false;
-
-    const incomeNum = Number(income);
+    // ✅ 입력된 만원 단위를 원단위로 변환
+    const incomeNum = Number(income) * 10000;
     const membersNum = Number(members);
+    const teamIncomeNum = Number(teamIncome) * 10000;
 
-    // 디버깅 로그
-    console.log('입력값:', JSON.stringify({ career, period, income: incomeNum, members: membersNum }, null, 2));
-    console.log('기준값:', JSON.stringify(criteria, null, 2));
+    console.log('입력값(원단위 변환):', { career, period, income: incomeNum, members: membersNum, teamIncome: teamIncomeNum });
 
     // 경력과 기간 조합 체크 (careerOptions 중 하나라도 맞으면 OK)
     const careerPeriodMatch = criteria.careerOptions?.some(option => {
@@ -133,73 +122,61 @@ function MProjectPage({ config }) {
 
     setQualified(isQualified);
 
-    // 자격 충족 시 자동으로 다음 단계로 이동
-    if (isQualified) {
-      setStep(2);
+    // 등급 계산
+    const gradeConfig = config?.mProject?.gradeCriteria?.find(
+      item => item.position === position
+    );
+    const supportConfig = config?.mProject?.supportCriteria?.find(
+      item => item.position === position
+    );
+
+    if (!gradeConfig || !supportConfig) {
+      alert('등급 기준 데이터를 찾을 수 없습니다.');
+      return;
     }
+
+    const criteria2 = gradeConfig.grades;
+    let calculatedGrade = '';
+
+    if (teamIncomeNum >= criteria2.S) {
+      calculatedGrade = 'S';
+    } else if (teamIncomeNum >= criteria2.A) {
+      calculatedGrade = 'A';
+    } else if (teamIncomeNum >= criteria2.B) {
+      calculatedGrade = 'B';
+    } else {
+      calculatedGrade = 'C';
+    }
+
+    setGrade(calculatedGrade);
+
+    const supportData = supportConfig.supports[calculatedGrade];
+    if (!supportData) {
+      alert(`${calculatedGrade} 등급의 지원금 데이터를 찾을 수 없습니다.`);
+      return;
+    }
+
+    let totalSupport = supportData.total;
+    let additionalSupport = 0;
+
+    if (calculatedGrade === 'S' || calculatedGrade === 'A') {
+      additionalSupport = Math.floor(incomeNum * 0.1);
+      totalSupport += additionalSupport;
+    }
+
+    setResult({
+      position,
+      grade: calculatedGrade,
+      ...supportData,
+      totalSupport,
+      additionalSupport,
+      bonusApplied: (calculatedGrade === 'S' || calculatedGrade === 'A')
+    });
+
+    // 바로 결과 페이지로 이동 (Step 2 제거)
+    setStep(2);
   };
 
-const calculateGrade = () => {
-  if (!teamIncome) {
-    alert('소득을 입력해주세요.');
-    return;
-  }
-
-  // ✅ 만원 → 원 변환
-  const teamIncomeNum = Number(teamIncome) * 10000;
-
-  const gradeConfig = config?.mProject?.gradeCriteria?.find(
-    item => item.position === position
-  );
-  const supportConfig = config?.mProject?.supportCriteria?.find(
-    item => item.position === position
-  );
-
-  if (!gradeConfig || !supportConfig) {
-    alert('등급 기준 데이터를 찾을 수 없습니다.');
-    return;
-  }
-
-  const criteria = gradeConfig.grades;
-  let calculatedGrade = '';
-
-  if (teamIncomeNum >= criteria.S) {
-    calculatedGrade = 'S';
-  } else if (teamIncomeNum >= criteria.A) {
-    calculatedGrade = 'A';
-  } else if (teamIncomeNum >= criteria.B) {
-    calculatedGrade = 'B';
-  } else {
-    calculatedGrade = 'C';
-  }
-
-  setGrade(calculatedGrade);
-
-  const supportData = supportConfig.supports[calculatedGrade];
-  if (!supportData) {
-    alert(`${calculatedGrade} 등급의 지원금 데이터를 찾을 수 없습니다.`);
-    return;
-  }
-
-  let totalSupport = supportData.total;
-
-  // ✅ 원단위 변환된 소득 사용
-  const incomeInWon = Number(income) * 10000;
-
-  if (calculatedGrade === 'S' || calculatedGrade === 'A') {
-    totalSupport += Math.floor(incomeInWon * 0.1);
-  }
-
-  setResult({
-    position,
-    grade: calculatedGrade,
-    ...supportData,
-    totalSupport,
-    bonusApplied: (calculatedGrade === 'S' || calculatedGrade === 'A')
-  });
-
-  setStep(3);
-};
 
   const handleReset = () => {
     setStep(1);
@@ -245,27 +222,6 @@ const calculateGrade = () => {
         </div>
       </header>
 
-      {/* Progress Steps */}
-      <div className="progress-section">
-        <div className="container">
-          <div className="progress-steps">
-            <div className={`progress-step ${step >= 1 ? 'active' : ''} ${step > 1 ? 'completed' : ''}`}>
-              <div className="step-number">1</div>
-              <div className="step-label">자격 확인</div>
-            </div>
-            <div className="progress-line"></div>
-            <div className={`progress-step ${step >= 2 ? 'active' : ''} ${step > 2 ? 'completed' : ''}`}>
-              <div className="step-number">2</div>
-              <div className="step-label">등급 산정</div>
-            </div>
-            <div className="progress-line"></div>
-            <div className={`progress-step ${step >= 3 ? 'active' : ''}`}>
-              <div className="step-number">3</div>
-              <div className="step-label">결과 확인</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Main Content */}
       <main className="main-content">
@@ -277,7 +233,7 @@ const calculateGrade = () => {
               <h2 className="step-title">위임 자격 확인</h2>
 
               <div className="form-group">
-                <label>당사 위임 직급</label>
+                <label>굿리치 위촉 직급</label>
                 <select value={position} onChange={(e) => setPosition(e.target.value)} className="select-input">
                   <option value="">선택하세요</option>
                   <option value="본부장">본부장</option>
@@ -299,26 +255,13 @@ const calculateGrade = () => {
                 <label>경력 기간</label>
                 <select value={period} onChange={(e) => setPeriod(e.target.value)} className="select-input">
                   <option value="">선택하세요</option>
-                  <option value="1년">1년</option>
-                  <option value="2년">2년</option>
+                  <option value="1년이상">1년이상</option>
                   <option value="2년이상">2년이상</option>
                 </select>
               </div>
 
               <div className="form-group">
-                <label>본인 직전 1년 소득</label>
-                <input
-                  type="text"
-                  value={displayIncome}
-                  onChange={(e) => handleIncomeChange(e, setIncome, setDisplayIncome)}
-                  placeholder="0"
-                  className="text-input"
-                />
-                <span className="input-suffix">원</span>
-              </div>
-
-              <div className="form-group">
-                <label>동반 위촉 인원 (본인 제외)</label>
+                <label>동반위촉인원(본인포함)</label>
                 <input
                   type="number"
                   value={members}
@@ -330,7 +273,32 @@ const calculateGrade = () => {
                 <span className="input-suffix">명</span>
               </div>
 
+              <div className="form-group">
+                <label>본인 직전 1년 소득</label>
+                <input
+                  type="text"
+                  value={displayIncome}
+                  onChange={(e) => handleIncomeChange(e, setIncome, setDisplayIncome)}
+                  placeholder="0"
+                  className="text-input"
+                />
+                <span className="input-suffix">만원</span>
+              </div>
+
+              <div className="form-group">
+                <label>산하조직소득합계(본인포함)</label>
+                <input
+                  type="text"
+                  value={displayTeamIncome}
+                  onChange={(e) => handleIncomeChange(e, setTeamIncome, setDisplayTeamIncome)}
+                  placeholder="0"
+                  className="text-input"
+                />
+                <span className="input-suffix">만원</span>
+              </div>
+
               <div className="checkbox-group">
+                <p className="checkbox-description">아래 내용에 해당하지 않습니다.</p>
                 {config.mProject?.checkboxLabels?.map((label, index) => (
                   <label key={index} className="checkbox-label">
                     <input
@@ -345,85 +313,40 @@ const calculateGrade = () => {
 
               <div className="button-group">
                 <button onClick={handleReset} className="btn-secondary">처음부터 다시하기</button>
-                <button onClick={checkQualification} className="btn-primary btn-large">자격 확인</button>
-              </div>
-
-              {qualified === false && (
-                <div className="qualification-result warning">
-                  <p className="result-message">입력내용이 당사 규정을 충족하지 못했습니다. 추가로 회사 승인이 필요합니다. 계속진행하여 예상금액을 확인할 수 있습니다.</p>
-                  <button onClick={() => setStep(2)} className="btn-secondary">계속 진행</button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Step 2: 등급 산정 */}
-          {step === 2 && (
-            <div className="step-card fade-in">
-              <h2 className="step-title">지원 등급 산정</h2>
-
-              <div className="info-box">
-                <p>{config.mProject?.step2InfoText || '동반 위촉 산하 조직 전원의 직전 1년 보험영업 소득 합계액을 입력하세요.'}</p>
-              </div>
-
-              <div className="form-group">
-                <label>산하 조직 소득 합계</label>
-                <input
-                  type="text"
-                  value={displayTeamIncome}
-                  onChange={(e) => handleIncomeChange(e, setTeamIncome, setDisplayTeamIncome)}
-                  placeholder="0"
-                  className="text-input large"
-                />
-                <span className="input-suffix">원</span>
-              </div>
-
-              <div className="button-group">
-                <button onClick={handleReset} className="btn-secondary">처음부터 다시하기</button>
-                <button onClick={() => setStep(1)} className="btn-secondary">이전 단계</button>
-                <button onClick={calculateGrade} className="btn-primary btn-large">등급 산정</button>
+                <button onClick={checkQualification} className="btn-primary btn-large">지원금 확인</button>
               </div>
             </div>
           )}
 
-          {/* Step 3: 결과 */}
-          {step === 3 && result && (
+          {/* Step 2: 결과 */}
+          {step === 2 && result && (
             <div className="fade-in">
               <div className="result-card">
                 <div className="result-header">
-                  <h2 className="result-title">지원 기준 안내</h2>
+                  <h2 className="result-title">지원금 안내</h2>
                   <div className="result-summary">
                     <p className="result-position">위임 직급: <strong>{result.position}</strong></p>
-                    <p className="result-grade">적용 그레이드: <strong>{result.grade}</strong></p>
-                    <p className="result-total">총 지원금: <strong>{formatCurrency(result.totalSupport)}</strong></p>
+                    <p className="result-grade">적용 Grade: <strong>{result.grade}</strong></p>
+                    <p className="result-amount">지원금액: <strong>{formatNumber(Math.floor(result.total / 10000))}</strong> 만원</p>
+                    {result.bonusApplied && (
+                      <p className="result-additional">추가지급: <strong>{formatNumber(Math.floor(result.additionalSupport / 10000))}</strong> 만원
+                        <span className="additional-note">(S,A등급만 추가지급 / 추가지급금은 재정보증 필수)</span>
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div className="result-details-grid">
                   <div className="detail-item">
-                    <span className="detail-label">월 업적 목표</span>
-                    <span className="detail-value">{formatCurrency(result.monthly)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <span className="detail-label">연간 업적 목표</span>
-                    <span className="detail-value">{formatCurrency(result.yearly)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <span className="detail-label">월 지원금</span>
-                    <span className="detail-value highlight">{formatCurrency(result.monthlySupport)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <span className="detail-label">총 지원금</span>
-                    <span className="detail-value highlight">{formatCurrency(result.totalSupport)}</span>
+                    <span className="detail-label">연간업적목표 (월 {formatNumber(Math.floor(result.monthly / 10000))}만원)</span>
+                    <span className="detail-value">{formatNumber(Math.floor(result.yearly / 10000))} 만원</span>
                   </div>
                 </div>
 
                 <div className="notice-section">
                   <h3 className="notice-title">안내사항</h3>
                   <ul className="notice-list">
-                    {result.bonusApplied && (
-                      <li>✓ {config.mProject?.bonusText?.replace('{grade}', result.grade) || `Grade ${result.grade}의 경우 본인 직전1년 소득의 10% 추가 지급되었습니다.`}</li>
-                    )}
+                    <li>지원금에 대한 재정보증 필수</li>
                     {config.mProject?.noticeTexts?.map((text, index) => (
                       <li key={index}>{text}</li>
                     ))}
