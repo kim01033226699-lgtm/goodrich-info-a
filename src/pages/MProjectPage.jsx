@@ -337,19 +337,20 @@ function MProjectPage({ config }) {
                 </div>
 
                 <div className="result-details-grid">
-                  <div className="detail-item">
-                    <span className="detail-label">연간업적목표 (월 {formatNumber(Math.floor(result.monthly / 10000))}만원)</span>
-                    <span className="detail-value">{formatNumber(Math.floor(result.yearly / 10000))} 만원</span>
+                  <div className="detail-item-center">
+                    <div className="yearly-goal-title">연간업적목표(정산평가업적)</div>
+                    <div className="yearly-goal-amount">
+                      {formatNumber(Math.floor(result.yearly / 10000))} 만원
+                      <span className="monthly-amount">(월 {formatNumber(Math.floor(result.monthly / 10000))}만원)</span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="notice-section">
-                  <h3 className="notice-title">안내사항</h3>
-                  <ul className="notice-list">
+                <div className="notice-section-center">
+                  <ul className="notice-list-center">
                     <li>지원금에 대한 재정보증 필수</li>
-                    {config.mProject?.noticeTexts?.map((text, index) => (
-                      <li key={index}>{text}</li>
-                    ))}
+                    <li>6개월 선지급가능(재정보증 필수)</li>
+                    <li>Grade 상향은 불가</li>
                   </ul>
                 </div>
               </div>

@@ -122,11 +122,13 @@ function UserPage({ config }) {
                     <h3 className="section-title">연간업적목표(정산평가업적)</h3>
                     <div className="goal-amount-display">
                       {formatNumber(Math.floor(calculateGoalAmount(getSelectedOptionInfo().goal.goalPercentage) / 10000))} 만원
-                      (월 {formatNumber(Math.floor(calculateGoalAmount(getSelectedOptionInfo().goal.goalPercentage) / 12 / 10000))} 만원)
+                      <span className="goal-monthly-calc">
+                        (월 {formatNumber(Math.floor(calculateGoalAmount(getSelectedOptionInfo().goal.goalPercentage) / 12 / 10000))} 만원 X {getSelectedOptionInfo().goal.evaluationPeriod})
+                      </span>
                     </div>
                     <div className="goal-details">
                       <div className="goal-detail-item">
-                        <span className="goal-label">평가 기간</span>
+                        <span className="goal-label">업적 평가기간</span>
                         <span className="goal-value">{getSelectedOptionInfo().goal.evaluationPeriod}</span>
                       </div>
                       <div className="goal-detail-item">

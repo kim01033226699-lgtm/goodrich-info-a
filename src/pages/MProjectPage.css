@@ -204,12 +204,47 @@
   color: var(--primary-color);
 }
 
+/* Center aligned goal section */
+.detail-item-center {
+  text-align: center;
+  padding: 2rem;
+  background: var(--bg-section);
+  border-radius: 8px;
+}
+
+.yearly-goal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.yearly-goal-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.monthly-amount {
+  font-size: 1.2rem;
+  display: block;
+  margin-top: 0.5rem;
+}
+
 /* Notice Section */
 .notice-section {
   background: var(--bg-section);
   padding: 2rem;
   border-radius: 12px;
   margin-bottom: 2rem;
+}
+
+.notice-section-center {
+  background: var(--bg-section);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .notice-title {
@@ -227,8 +262,23 @@
   margin: 0;
 }
 
+.notice-list-center {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  text-align: left;
+}
+
 .notice-list li {
   padding: 0.75rem 0;
+  font-size: 1rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.notice-list-center li {
+  padding: 0.5rem 0;
   font-size: 1rem;
   color: var(--text-color);
   line-height: 1.6;
