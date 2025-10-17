@@ -74,7 +74,7 @@ function UserPage({ config }) {
             <div className="step-card fade-in">
               <h2 className="step-title">연소득을 입력해주세요</h2>
               <form onSubmit={handleIncomeSubmit} className="income-form">
-                <div className="input-group">
+                <div className="form-group">
                   <input
                     type="text"
                     inputMode="numeric"
@@ -82,10 +82,10 @@ function UserPage({ config }) {
                     value={displayIncome}
                     onChange={handleIncomeChange}
                     placeholder="0"
-                    className="income-input"
+                    className="text-input"
                     required
                   />
-                  <span className="input-suffix">만 원</span>
+                  <span className="input-suffix">만원</span>
                 </div>
                 <button type="submit" className="btn-primary btn-large">지원금 확인</button>
               </form>
