@@ -127,7 +127,7 @@ function UserPage({ config }) {
                   const monthlyGoal = Math.floor(yearlyGoal / months / 10000);
 
                   return (
-                    <div className="goals-section">
+                    <div key={selectedOption} className="goals-section fade-in">
                       <h3 className="section-title">연간업적목표(정산평가업적)</h3>
                       <div className="goal-amount-display">
                         {formatNumber(Math.floor(yearlyGoal / 10000))} 만원
