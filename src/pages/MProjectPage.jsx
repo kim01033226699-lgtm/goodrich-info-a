@@ -364,7 +364,7 @@ function MProjectPage({ config }) {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2025 굿리치 정착교육비 안내 시스템. All rights reserved. (v1.0)</p>
+          <p>&copy; 2025 굿리치 지원금 안내. All rights reserved. (v1.0)</p>
         </div>
       </footer>
     </div>

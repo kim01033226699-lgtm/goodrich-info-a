@@ -117,27 +117,35 @@ function UserPage({ config }) {
                   </div>
                 </div>
 
-                {selectedOption && getSelectedOptionInfo() && (
-                  <div className="goals-section">
-                    <h3 className="section-title">연간업적목표(정산평가업적)</h3>
-                    <div className="goal-amount-display">
-                      {formatNumber(Math.floor(calculateGoalAmount(getSelectedOptionInfo().goal.goalPercentage) / 10000))} 만원
-                      <span className="goal-monthly-calc">
-                        (월 {formatNumber(Math.floor(calculateGoalAmount(getSelectedOptionInfo().goal.goalPercentage) / 12 / 10000))} 만원 X {getSelectedOptionInfo().goal.evaluationPeriod})
-                      </span>
-                    </div>
-                    <div className="goal-details">
-                      <div className="goal-detail-item">
-                        <span className="goal-label">업적 평가기간</span>
-                        <span className="goal-value">{getSelectedOptionInfo().goal.evaluationPeriod}</span>
+                {selectedOption && getSelectedOptionInfo() && (() => {
+                  const optionInfo = getSelectedOptionInfo();
+                  const yearlyGoal = calculateGoalAmount(optionInfo.goal.goalPercentage);
+                  // evaluationPeriod에서 개월수 추출 (예: "12개월" -> 12)
+                  const months = parseInt(optionInfo.goal.evaluationPeriod.match(/\d+/)[0]);
+                  const monthlyGoal = Math.floor(yearlyGoal / months / 10000);
+
+                  return (
+                    <div className="goals-section">
+                      <h3 className="section-title">연간업적목표(정산평가업적)</h3>
+                      <div className="goal-amount-display">
+                        {formatNumber(Math.floor(yearlyGoal / 10000))} 만원
+                        <span className="goal-monthly-calc">
+                          (월 {formatNumber(monthlyGoal)} 만원 X {optionInfo.goal.evaluationPeriod})
+                        </span>
                       </div>
-                      <div className="goal-detail-item">
-                        <span className="goal-label">평가 시기</span>
-                        <span className="goal-value">{getSelectedOptionInfo().goal.evaluationTime}</span>
+                      <div className="goal-details">
+                        <div className="goal-detail-item">
+                          <span className="goal-label">업적 평가기간</span>
+                          <span className="goal-value">{optionInfo.goal.evaluationPeriod}</span>
+                        </div>
+                        <div className="goal-detail-item">
+                          <span className="goal-label">평가 시기</span>
+                          <span className="goal-value">{optionInfo.goal.evaluationTime}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  );
+                })()}
               </div>
 
               <button onClick={handleReset} className="btn-secondary btn-large">다시하기</button>
@@ -149,7 +157,7 @@ function UserPage({ config }) {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2025 굿리치 정착교육비 안내 시스템. All rights reserved. (v1.0)</p>
+          <p>&copy; 2025 굿리치 지원금 안내. All rights reserved. (v1.0)</p>
         </div>
       </footer>
     </div>

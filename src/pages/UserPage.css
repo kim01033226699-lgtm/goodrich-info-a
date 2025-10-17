@@ -423,6 +423,10 @@
   margin-bottom: 2rem;
 }
 
+.option-selection-section .section-title {
+  text-align: center;
+}
+
 .form-group {
   margin-bottom: 1rem;
 }
