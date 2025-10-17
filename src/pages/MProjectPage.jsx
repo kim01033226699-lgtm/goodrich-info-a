@@ -278,7 +278,7 @@ function MProjectPage({ config }) {
                 <input
                   type="text"
                   inputMode="numeric"
-                  pattern="[0-9]*"
+                  pattern="[0-9,]*"
                   value={displayIncome}
                   onChange={(e) => handleIncomeChange(e, setIncome, setDisplayIncome)}
                   placeholder="0"
@@ -292,7 +292,7 @@ function MProjectPage({ config }) {
                 <input
                   type="text"
                   inputMode="numeric"
-                  pattern="[0-9]*"
+                  pattern="[0-9,]*"
                   value={displayTeamIncome}
                   onChange={(e) => handleIncomeChange(e, setTeamIncome, setDisplayTeamIncome)}
                   placeholder="0"
