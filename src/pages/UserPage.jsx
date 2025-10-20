@@ -126,9 +126,35 @@ function UserPage({ config }) {
                   const months = parseInt(optionInfo.goal.evaluationPeriod.match(/\d+/)[0]);
                   const monthlyGoal = Math.floor(yearlyGoal / months / 10000);
 
+                  // 옵션별 중간목표 계산
+                  const getIntermediateGoals = (optionId) => {
+                    const finalGoal = Math.floor(yearlyGoal / 10000);
+                    switch(optionId) {
+                      case 1: // 옵션1
+                        return {
+                          first: Math.floor(finalGoal * 0.25),
+                          second: Math.floor(finalGoal * 0.35)
+                        };
+                      case 2: // 옵션2
+                        return {
+                          first: Math.floor(finalGoal * 0.20),
+                          second: Math.floor(finalGoal * 0.25)
+                        };
+                      case 3: // 옵션3
+                        return {
+                          first: Math.floor(finalGoal * 0.15),
+                          second: Math.floor(finalGoal * 0.20)
+                        };
+                      default:
+                        return { first: 0, second: 0 };
+                    }
+                  };
+
+                  const intermediateGoals = getIntermediateGoals(optionInfo.id);
+
                   return (
                     <div key={selectedOption} className="goals-section fade-in">
-                      <h3 className="section-title">연간업적목표(정산평가업적)</h3>
+                      <h3 className="section-title">목표업적</h3>
                       <div className="goal-amount-display">
                         {formatNumber(Math.floor(yearlyGoal / 10000))} 만원
                         <span className="goal-monthly-calc">
@@ -137,12 +163,12 @@ function UserPage({ config }) {
                       </div>
                       <div className="goal-details">
                         <div className="goal-detail-item">
-                          <span className="goal-label">업적 평가기간</span>
-                          <span className="goal-value">{optionInfo.goal.evaluationPeriod}</span>
+                          <span className="goal-label">1차 중간목표</span>
+                          <span className="goal-value">영업7차월 {formatNumber(intermediateGoals.first)} 만원</span>
                         </div>
                         <div className="goal-detail-item">
-                          <span className="goal-label">평가 시기</span>
-                          <span className="goal-value">{optionInfo.goal.evaluationTime}</span>
+                          <span className="goal-label">2차 중간평가</span>
+                          <span className="goal-value">영업10차월 {formatNumber(intermediateGoals.second)} 만원</span>
                         </div>
                       </div>
                     </div>

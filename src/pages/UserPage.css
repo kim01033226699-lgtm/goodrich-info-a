@@ -477,7 +477,7 @@
 .goal-amount-display {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--text-color); /* 목표금액을 검은색(본문색)으로 */
   text-align: center;
   padding: 2rem;
   background: var(--bg-section);
@@ -486,7 +486,7 @@
 }
 
 .goal-monthly-calc {
-  font-size: 1.2rem;
+  font-size: 1.32rem; /* 10% 증가 */
   display: block;
   margin-top: 0.5rem;
 }
