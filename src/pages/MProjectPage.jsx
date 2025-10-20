@@ -32,12 +32,9 @@ function MProjectPage({ config }) {
 
   // Step 1 상태
   const [position, setPosition] = useState('');
-  const [career, setCareer] = useState('');
-  const [period, setPeriod] = useState('');
   const [income, setIncome] = useState('');
   const [displayIncome, setDisplayIncome] = useState('');
   const [members, setMembers] = useState('');
-  const [checks, setChecks] = useState([false, false, false]);
   const [qualified, setQualified] = useState(null);
 
   // Step 2 상태
@@ -56,32 +53,12 @@ function MProjectPage({ config }) {
     }
   };
 
-  const handleCheckboxChange = (index) => {
-    const newChecks = [...checks];
-    newChecks[index] = !newChecks[index];
-    setChecks(newChecks);
-  };
-
-  // 기간 비교 함수
-  const comparePeriod = (inputPeriod, minPeriod) => {
-    const periodMap = { '1년이상': 1, '2년이상': 2 };
-    const inputValue = periodMap[inputPeriod] || 0;
-    const minValue = periodMap[minPeriod] || 0;
-
-    if (minPeriod === '2년이상') {
-      return inputValue >= 2;
-    }
-    return inputValue >= minValue;
-  };
+  // 기존 경력/기간/체크박스 로직 제거 (요청사항에 따라 미사용)
 
   const checkQualification = () => {
-    if (!position || !career || !period || !income || !members || !teamIncome) {
-      alert('모든 항목을 입력해주세요.');
-      return;
-    }
-
-    if (!checks.every(check => check)) {
-      alert('모든 체크 항목에 동의해주세요.');
+    // 요청사항: 위임직급, 동반위촉, 산하조직소득 합계만으로 계산
+    if (!position || !members || !teamIncome) {
+      alert('위임 직급, 동반위촉 인원, 산하조직소득합계를 입력해주세요.');
       return;
     }
 
@@ -97,30 +74,13 @@ function MProjectPage({ config }) {
     }
 
     // ✅ 입력된 만원 단위를 원단위로 변환
-    const incomeNum = Number(income) * 10000;
+    const incomeNum = Number(income || 0) * 10000; // 본인 1년 소득은 추가금에만 반영
     const membersNum = Number(members);
     const teamIncomeNum = Number(teamIncome) * 10000;
 
-    console.log('입력값(원단위 변환):', { career, period, income: incomeNum, members: membersNum, teamIncome: teamIncomeNum });
-
-    // 경력과 기간 조합 체크 (careerOptions 중 하나라도 맞으면 OK)
-    const careerPeriodMatch = criteria.careerOptions?.some(option => {
-      const careerMatch = career === option.career;
-      const periodMatch = comparePeriod(period, option.minPeriod);
-      console.log(`경력/기간 체크: "${career}" === "${option.career}" && "${period}" >= "${option.minPeriod}" = ${careerMatch && periodMatch}`);
-      return careerMatch && periodMatch;
-    }) || false;
-
-    const incomeMatch = incomeNum >= criteria.income;
-    const membersMatch = membersNum >= criteria.members;
-
-    console.log('매칭 결과:', JSON.stringify({ careerPeriodMatch, incomeMatch, membersMatch }, null, 2));
-    console.log('소득 매칭:', `${incomeNum} >= ${criteria.income} = ${incomeMatch}`);
-    console.log('인원 매칭:', `${membersNum} >= ${criteria.members} = ${membersMatch}`);
-
-    const isQualified = careerPeriodMatch && incomeMatch && membersMatch;
-
-    setQualified(isQualified);
+    console.log('입력값(원단위 변환):', { members: membersNum, teamIncome: teamIncomeNum, income: incomeNum });
+    // 요청사항: 자격판단은 단순화(직급/인원 기반), 계산 진행
+    setQualified(true);
 
     // 등급 계산
     const gradeConfig = config?.mProject?.gradeCriteria?.find(
@@ -181,12 +141,9 @@ function MProjectPage({ config }) {
   const handleReset = () => {
     setStep(1);
     setPosition('');
-    setCareer('');
-    setPeriod('');
     setIncome('');
     setDisplayIncome('');
     setMembers('');
-    setChecks([false, false, false]);
     setQualified(null);
     setTeamIncome('');
     setDisplayTeamIncome('');
@@ -242,23 +199,7 @@ function MProjectPage({ config }) {
                 </select>
               </div>
 
-              <div className="form-group">
-                <label>본인 경력(보험회사&GA)</label>
-                <select value={career} onChange={(e) => setCareer(e.target.value)} className="select-input">
-                  <option value="">선택하세요</option>
-                  <option value="본부장 or 관리자">본부장 or 관리자</option>
-                  <option value="보험영업">보험영업</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label>경력 기간</label>
-                <select value={period} onChange={(e) => setPeriod(e.target.value)} className="select-input">
-                  <option value="">선택하세요</option>
-                  <option value="1년이상">1년이상</option>
-                  <option value="2년이상">2년이상</option>
-                </select>
-              </div>
+              {/* 경력/경력기간 입력 제거 (요청사항) */}
 
               <div className="form-group">
                 <label>동반위촉인원(본인포함)</label>
@@ -301,19 +242,7 @@ function MProjectPage({ config }) {
                 <span className="input-suffix">만원</span>
               </div>
 
-              <div className="checkbox-group">
-                <p className="checkbox-description">아래 내용에 해당하지 않습니다.</p>
-                {config.mProject?.checkboxLabels?.map((label, index) => (
-                  <label key={index} className="checkbox-label">
-                    <input
-                      type="checkbox"
-                      checked={checks[index]}
-                      onChange={() => handleCheckboxChange(index)}
-                    />
-                    <span>{label}</span>
-                  </label>
-                ))}
-              </div>
+              {/* 체크박스 섹션 제거 (요청사항) */}
 
               <div className="button-group">
                 <button onClick={checkQualification} className="btn-primary btn-large">지원금 확인</button>
@@ -329,13 +258,25 @@ function MProjectPage({ config }) {
                 <div className="result-header">
                   <h2 className="result-title">지원금 안내</h2>
                   <div className="result-summary">
-                    <p className="result-position">위임 직급: <strong>{result.position}</strong></p>
-                    <p className="result-grade">적용 Grade: <strong>{result.grade}</strong></p>
-                    <p className="result-amount">지원금액: <strong>{formatNumber(Math.floor(result.total / 10000))}</strong> 만원</p>
+                    <div className="summary-row">
+                      <span className="summary-label">위임 직급</span>
+                      <span className="summary-value badge">{result.position}</span>
+                    </div>
+                    <div className="summary-row">
+                      <span className="summary-label">적용 Grade</span>
+                      <span className="summary-value grade-badge">{result.grade}</span>
+                    </div>
+                    <div className="summary-row total-row">
+                      <span className="summary-label">지원금액</span>
+                      <span className="summary-value amount">{formatNumber(Math.floor(result.total / 10000))} 만원</span>
+                    </div>
                     {result.bonusApplied && (
-                      <p className="result-additional">추가지급: <strong>{formatNumber(Math.floor(result.additionalSupport / 10000))}</strong> 만원
-                        <span className="additional-note">(S,A등급만 추가지급 / 추가지급금은 재정보증 필수)</span>
-                      </p>
+                      <div className="summary-row">
+                        <span className="summary-label">추가지급</span>
+                        <span className="summary-value additional">{formatNumber(Math.floor(result.additionalSupport / 10000))} 만원
+                          <span className="additional-note">(S,A등급만 추가 지급)</span>
+                        </span>
+                      </div>
                     )}
                   </div>
                 </div>
