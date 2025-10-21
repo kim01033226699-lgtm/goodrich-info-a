@@ -41,14 +41,76 @@
   box-shadow: 0 0 0 3px rgba(255, 156, 0, 0.1);
 }
 
+/* 입력 필드와 단위 정렬 개선 */
+.input-with-suffix {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.input-with-suffix .text-input {
+  flex: 1;
+  text-align: center;
+  padding-right: 4rem; /* 화살표 공간 확보 */
+  padding-left: 1rem;
+}
+
+/* number input의 기본 스피너 제거 */
+.input-with-suffix input[type="number"]::-webkit-outer-spin-button,
+.input-with-suffix input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-with-suffix input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .input-suffix {
-  position: absolute;
-  right: 1rem;
-  top: calc(1.5rem + 1.5rem);
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-light);
-  pointer-events: none;
+  white-space: nowrap;
+  margin-right: 2.5rem; /* 화살표와의 간격 확보 */
+}
+
+.input-arrows {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 10;
+}
+
+.arrow-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: var(--bg-light);
+  color: var(--text-color);
+  font-size: 0.75rem;
+  cursor: pointer;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.arrow-btn:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.arrow-btn:active {
+  transform: scale(0.95);
 }
 
 /* Checkbox Group */
@@ -374,5 +436,156 @@
 
   .detail-value {
     font-size: 1.25rem;
+  }
+  
+  .input-with-suffix {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .input-with-suffix .text-input {
+    padding-right: 3.5rem;
+    padding-left: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .input-suffix {
+    font-size: 0.9rem;
+    margin-right: 2rem;
+  }
+  
+  .input-arrows {
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  
+  .arrow-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+  }
+}
+
+/* 커스텀 모달 스타일 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-body p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.modal-footer .btn-primary {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  background: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-footer .btn-primary:hover {
+  background: #e67e22;
+  transform: translateY(-1px);
+}
+
+.modal-footer .btn-primary:active {
+  transform: translateY(0);
+}
+
+/* 모바일 모달 반응형 */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+  
+  .modal-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+  }
+  
+  .modal-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .modal-body {
+    padding: 1.25rem;
+  }
+  
+  .modal-body p {
+    font-size: 0.95rem;
+  }
+  
+  .modal-footer {
+    padding: 0.75rem 1.25rem 1.25rem;
+  }
+  
+  .modal-footer .btn-primary {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
   }
 }

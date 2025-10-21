@@ -44,6 +44,10 @@ function MProjectPage({ config }) {
 
   // Step 3 결과
   const [result, setResult] = useState(null);
+  
+  // 모달 상태
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const handleIncomeChange = (e, setter, displaySetter) => {
     const value = e.target.value.replace(/,/g, '');
@@ -69,7 +73,8 @@ function MProjectPage({ config }) {
 
     if (!criteria) {
       console.error('자격 기준을 찾을 수 없습니다:', position, config?.mProject?.qualificationCriteria);
-      alert('자격 기준 데이터를 찾을 수 없습니다. 페이지를 새로고침해주세요.');
+      setModalMessage('자격 기준 데이터를 찾을 수 없습니다. 페이지를 새로고침해주세요.');
+      setShowModal(true);
       return;
     }
 
@@ -91,7 +96,8 @@ function MProjectPage({ config }) {
     );
 
     if (!gradeConfig || !supportConfig) {
-      alert('등급 기준 데이터를 찾을 수 없습니다.');
+      setModalMessage('등급 기준 데이터를 찾을 수 없습니다.');
+      setShowModal(true);
       return;
     }
 
@@ -110,9 +116,17 @@ function MProjectPage({ config }) {
 
     setGrade(calculatedGrade);
 
+    // C등급은 미달 처리
+    if (calculatedGrade === 'C') {
+      setModalMessage('당사 Grade규정에 맞지 않습니다. 소득을 확인해 주세요.');
+      setShowModal(true);
+      return;
+    }
+
     const supportData = supportConfig.supports[calculatedGrade];
     if (!supportData) {
-      alert(`${calculatedGrade} 등급의 지원금 데이터를 찾을 수 없습니다.`);
+      setModalMessage(`${calculatedGrade} 등급의 지원금 데이터를 찾을 수 없습니다.`);
+      setShowModal(true);
       return;
     }
 
@@ -149,6 +163,13 @@ function MProjectPage({ config }) {
     setDisplayTeamIncome('');
     setGrade('');
     setResult(null);
+    setShowModal(false);
+    setModalMessage('');
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setModalMessage('');
   };
 
   if (!config) {
@@ -203,43 +224,105 @@ function MProjectPage({ config }) {
 
               <div className="form-group">
                 <label>동반위촉인원(본인포함)</label>
-                <input
-                  type="number"
-                  value={members}
-                  onChange={(e) => setMembers(e.target.value)}
-                  placeholder="0"
-                  className="text-input"
-                  min="0"
-                />
-                <span className="input-suffix">명</span>
+                <div className="input-with-suffix">
+                  <input
+                    type="number"
+                    value={members}
+                    onChange={(e) => setMembers(e.target.value)}
+                    placeholder="0"
+                    className="text-input"
+                    min="0"
+                  />
+                  <span className="input-suffix">명</span>
+                  <div className="input-arrows">
+                    <button 
+                      type="button" 
+                      className="arrow-btn up" 
+                      onClick={() => setMembers(prev => Math.max(0, Number(prev) + 1))}
+                    >▲</button>
+                    <button 
+                      type="button" 
+                      className="arrow-btn down" 
+                      onClick={() => setMembers(prev => Math.max(0, Number(prev) - 1))}
+                    >▼</button>
+                  </div>
+                </div>
               </div>
 
               <div className="form-group">
                 <label>본인 직전 1년 소득</label>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9,]*"
-                  value={displayIncome}
-                  onChange={(e) => handleIncomeChange(e, setIncome, setDisplayIncome)}
-                  placeholder="0"
-                  className="text-input"
-                />
-                <span className="input-suffix">만원</span>
+                <div className="input-with-suffix">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9,]*"
+                    value={displayIncome}
+                    onChange={(e) => handleIncomeChange(e, setIncome, setDisplayIncome)}
+                    placeholder="0"
+                    className="text-input"
+                  />
+                  <span className="input-suffix">만원</span>
+                  <div className="input-arrows">
+                    <button 
+                      type="button" 
+                      className="arrow-btn up" 
+                      onClick={() => {
+                        const currentValue = Number(income || 0);
+                        const newValue = currentValue + 1000; // 천만원 단위
+                        setIncome(newValue.toString());
+                        setDisplayIncome(formatNumber(newValue));
+                      }}
+                    >▲</button>
+                    <button 
+                      type="button" 
+                      className="arrow-btn down" 
+                      onClick={() => {
+                        const currentValue = Number(income || 0);
+                        const newValue = Math.max(0, currentValue - 1000); // 천만원 단위
+                        setIncome(newValue.toString());
+                        setDisplayIncome(formatNumber(newValue));
+                      }}
+                    >▼</button>
+                  </div>
+                </div>
               </div>
 
               <div className="form-group">
                 <label>산하조직소득합계(본인포함)</label>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9,]*"
-                  value={displayTeamIncome}
-                  onChange={(e) => handleIncomeChange(e, setTeamIncome, setDisplayTeamIncome)}
-                  placeholder="0"
-                  className="text-input"
-                />
-                <span className="input-suffix">만원</span>
+                <div className="input-with-suffix">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9,]*"
+                    value={displayTeamIncome}
+                    onChange={(e) => handleIncomeChange(e, setTeamIncome, setDisplayTeamIncome)}
+                    placeholder="0"
+                    className="text-input"
+                  />
+                  <span className="input-suffix">만원</span>
+                  <div className="input-arrows">
+                    <button 
+                      type="button" 
+                      className="arrow-btn up" 
+                      onClick={() => {
+                        const currentValue = Number(teamIncome || 0);
+                        const newValue = currentValue + 1000; // 천만원 단위
+                        setTeamIncome(newValue.toString());
+                        setDisplayTeamIncome(formatNumber(newValue));
+                      }}
+                    >▲</button>
+                    <button 
+                      type="button" 
+                      className="arrow-btn down" 
+                      onClick={() => {
+                        const currentValue = Number(teamIncome || 0);
+                        const newValue = Math.max(0, currentValue - 1000); // 천만원 단위
+                        setTeamIncome(newValue.toString());
+                        setDisplayTeamIncome(formatNumber(newValue));
+                      }}
+                    >▼</button>
+                  </div>
+                </div>
               </div>
 
               {/* 체크박스 섹션 제거 (요청사항) */}
@@ -312,6 +395,23 @@ function MProjectPage({ config }) {
           <p>&copy; 2025 굿리치 지원금 안내. All rights reserved. (v1.0)</p>
         </div>
       </footer>
+
+      {/* 커스텀 모달 */}
+      {showModal && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>알림</h3>
+            </div>
+            <div className="modal-body">
+              <p>{modalMessage}</p>
+            </div>
+            <div className="modal-footer">
+              <button className="btn-primary" onClick={closeModal}>확인</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
