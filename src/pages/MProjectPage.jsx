@@ -293,9 +293,9 @@ function MProjectPage({ config }) {
 
                 <div className="notice-section-center">
                   <ul className="notice-list-center">
-                    <li>지원금에 대한 재정보증 필수</li>
-                    <li>6개월 선지급가능(재정보증 필수)</li>
-                    <li>Grade 상향은 불가</li>
+                    <li><span className="checkmark">✓</span> <strong>지원금에 대한 재정보증 필수</strong></li>
+                    <li><span className="checkmark">✓</span> <strong>6개월 선지급가능(재정보증 필수)</strong></li>
+                    <li><span className="checkmark">✓</span> <strong>Grade 상향은 불가</strong></li>
                   </ul>
                 </div>
               </div>

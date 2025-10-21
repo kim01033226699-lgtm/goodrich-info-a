@@ -420,11 +420,35 @@
 
 /* Option Selection */
 .option-selection-section {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  background: var(--bg-section);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
 }
 
-.option-selection-section .section-title {
-  text-align: center;
+.option-selection-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.option-selection-row .section-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-color);
+  white-space: nowrap;
+}
+
+.option-selection-row .form-group {
+  flex: 1;
+  max-width: 400px;
 }
 
 .form-group {
@@ -489,6 +513,209 @@
   font-size: 1.32rem; /* 10% 증가 */
   display: block;
   margin-top: 0.5rem;
+}
+
+/* 목표업적 블록 스타일 */
+.goal-block {
+  background: var(--bg-section);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+.final-goal {
+  background: rgba(255, 156, 0, 0.05);
+  border-left-color: var(--primary-color);
+}
+
+.intermediate-goal {
+  background: rgba(59, 130, 246, 0.05);
+  border-left-color: #3b82f6;
+}
+
+.goal-block-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.goal-block-content {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.final-goal .goal-block-content {
+  color: var(--primary-color);
+  font-size: 1.75rem;
+}
+
+.intermediate-goal .goal-block-content {
+  color: #3b82f6;
+  font-size: 1.4rem;
+}
+
+.goal-evaluation {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-light);
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.intermediate-goals {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* 로딩 화면 스타일 */
+.calculating-section {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--bg-section);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.calculating-spinner {
+  margin-bottom: 1rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.calculating-text {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 선택한 옵션 정보 스타일 */
+.selected-option-info {
+  background: rgba(255, 156, 0, 0.1);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.option-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.option-details {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin-left: 0.5rem;
+}
+
+/* 구분선 제거 */
+
+/* 옵션선택적용내용 */
+.option-application-section {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(255, 156, 0, 0.05);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .intermediate-goals {
+    grid-template-columns: 1fr;
+  }
+  
+  .goal-block-content {
+    font-size: 1.25rem;
+  }
+  
+  .final-goal .goal-block-content {
+    font-size: 1.5rem;
+  }
+  
+  .intermediate-goal .goal-block-content {
+    font-size: 1.2rem;
+  }
+  
+  .selected-option-info {
+    padding: 0.75rem;
+  }
+  
+  .option-label {
+    font-size: 1rem;
+  }
+  
+  .option-details {
+    font-size: 0.9rem;
+  }
+  
+  .option-selection-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .option-selection-row .form-group {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* 안내사항 스타일 */
+.notice-section {
+  background: rgba(251, 146, 60, 0.05);
+  border: 1px solid #fb923c;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.notice-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notice-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.notice-list li:not(:last-child) {
+  border-bottom: 1px solid rgba(251, 146, 60, 0.2);
+}
+
+.notice-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 /* Payment and Goals */

@@ -325,6 +325,15 @@
   font-size: 1rem;
   color: var(--text-color);
   line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkmark {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 .notice-list li:not(:last-child) {
