@@ -25,7 +25,7 @@ function MenuPage() {
       <header className="menu-header">
         <div className="container">
           <h1 className="menu-title">굿리치 지원금 안내</h1>
-          <p className="menu-subtitle">굿리치 지원금을 직접 계산하세요. </p>
+          <p className="menu-subtitle"></p>
         </div>
       </header>
 
