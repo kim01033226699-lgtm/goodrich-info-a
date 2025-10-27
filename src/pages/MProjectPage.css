@@ -208,14 +208,16 @@
   padding: 2rem;
   background: var(--bg-section);
   border-radius: 12px;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem auto; /* ✅ 중앙 정렬 */
+  max-width: 600px;         /* ✅ 콘텐츠 최대 너비 (원하는 폭으로 조정 가능) */
+  width: 100%;              /* ✅ 화면 크기 따라 유연하게 확장 */
 }
 
 .summary-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.4rem;
+  justify-content: space-between; /* 좌우 끝 정렬 */
+  padding: 0 1.5rem;              /* ✅ 모바일 기준의 간격 */
 }
 
 .summary-label {
