@@ -214,20 +214,22 @@
 .summary-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  justify-content: space-between;
+  gap: 0.4rem;
 }
 
 .summary-label {
   font-size: 1rem;
   color: var(--text-light);
   font-weight: 600;
+  text-align: left;
 }
 
 .summary-value {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-color);
+  text-align: left;
 }
 
 .badge {
