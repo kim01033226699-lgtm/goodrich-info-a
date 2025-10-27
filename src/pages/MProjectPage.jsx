@@ -235,15 +235,17 @@ function MProjectPage({ config }) {
                   />
                   <span className="input-suffix">명</span>
                   <div className="input-arrows">
-                    <button 
-                      type="button" 
-                      className="arrow-btn up" 
+                    <button
+                      type="button"
+                      className="arrow-btn up"
                       onClick={() => setMembers(prev => Math.max(0, Number(prev) + 1))}
+                      tabIndex="-1"
                     >▲</button>
-                    <button 
-                      type="button" 
-                      className="arrow-btn down" 
+                    <button
+                      type="button"
+                      className="arrow-btn down"
                       onClick={() => setMembers(prev => Math.max(0, Number(prev) - 1))}
+                      tabIndex="-1"
                     >▼</button>
                   </div>
                 </div>
@@ -263,25 +265,27 @@ function MProjectPage({ config }) {
                   />
                   <span className="input-suffix">만원</span>
                   <div className="input-arrows">
-                    <button 
-                      type="button" 
-                      className="arrow-btn up" 
+                    <button
+                      type="button"
+                      className="arrow-btn up"
                       onClick={() => {
                         const currentValue = Number(income || 0);
                         const newValue = currentValue + 1000; // 천만원 단위
                         setIncome(newValue.toString());
                         setDisplayIncome(formatNumber(newValue));
                       }}
+                      tabIndex="-1"
                     >▲</button>
-                    <button 
-                      type="button" 
-                      className="arrow-btn down" 
+                    <button
+                      type="button"
+                      className="arrow-btn down"
                       onClick={() => {
                         const currentValue = Number(income || 0);
                         const newValue = Math.max(0, currentValue - 1000); // 천만원 단위
                         setIncome(newValue.toString());
                         setDisplayIncome(formatNumber(newValue));
                       }}
+                      tabIndex="-1"
                     >▼</button>
                   </div>
                 </div>
@@ -301,25 +305,27 @@ function MProjectPage({ config }) {
                   />
                   <span className="input-suffix">만원</span>
                   <div className="input-arrows">
-                    <button 
-                      type="button" 
-                      className="arrow-btn up" 
+                    <button
+                      type="button"
+                      className="arrow-btn up"
                       onClick={() => {
                         const currentValue = Number(teamIncome || 0);
                         const newValue = currentValue + 1000; // 천만원 단위
                         setTeamIncome(newValue.toString());
                         setDisplayTeamIncome(formatNumber(newValue));
                       }}
+                      tabIndex="-1"
                     >▲</button>
-                    <button 
-                      type="button" 
-                      className="arrow-btn down" 
+                    <button
+                      type="button"
+                      className="arrow-btn down"
                       onClick={() => {
                         const currentValue = Number(teamIncome || 0);
                         const newValue = Math.max(0, currentValue - 1000); // 천만원 단위
                         setTeamIncome(newValue.toString());
                         setDisplayTeamIncome(formatNumber(newValue));
                       }}
+                      tabIndex="-1"
                     >▼</button>
                   </div>
                 </div>
