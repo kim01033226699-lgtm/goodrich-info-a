@@ -340,12 +340,12 @@ function MProjectPage({ config }) {
               {/* 체크박스 섹션 제거 (요청사항) */}
 
               <div className="button-group">
-                <button onClick={checkQualification} className="btn-primary btn-large">지원금 확인</button>
                 <button onClick={handleReset} className="btn-secondary btn-icon" title="새로고침">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
                   </svg>
                 </button>
+                <button onClick={checkQualification} className="btn-primary btn-large">지원금 확인</button>
               </div>
             </div>
           )}

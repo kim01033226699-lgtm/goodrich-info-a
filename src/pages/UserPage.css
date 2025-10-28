@@ -712,8 +712,20 @@
   line-height: 1.5;
 }
 
-.notice-list li:not(:last-child) {
+.notice-list li:not(:last-child):not(.sub-item) {
   border-bottom: 1px solid rgba(251, 146, 60, 0.2);
+}
+
+.notice-list li.sub-item {
+  padding-left: 2rem;
+  font-size: 0.9rem;
+  border-bottom: none;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.notice-list li.sub-item:last-of-type {
+  margin-bottom: 0.5rem;
 }
 
 .notice-icon {
