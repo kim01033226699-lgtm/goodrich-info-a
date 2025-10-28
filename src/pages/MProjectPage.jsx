@@ -48,6 +48,7 @@ function MProjectPage({ config }) {
   // 모달 상태
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [showGradeModal, setShowGradeModal] = useState(false);
 
   const handleIncomeChange = (e, setter, displaySetter) => {
     const value = e.target.value.replace(/,/g, '');
@@ -208,7 +209,12 @@ function MProjectPage({ config }) {
           {/* Step 1: 자격 확인 */}
           {step === 1 && (
             <div className="step-card fade-in">
-              <h2 className="step-title">위임 자격 확인</h2>
+              <div className="step-title-container">
+                <h2 className="step-title">위임 자격 확인</h2>
+                <button onClick={() => setShowGradeModal(true)} className="btn-grade-info">
+                  기준보기
+                </button>
+              </div>
 
               <div className="form-group">
                 <label>굿리치 위촉 직급</label>
@@ -335,7 +341,11 @@ function MProjectPage({ config }) {
 
               <div className="button-group">
                 <button onClick={checkQualification} className="btn-primary btn-large">지원금 확인</button>
-                <button onClick={handleReset} className="btn-secondary">다시하기</button>
+                <button onClick={handleReset} className="btn-secondary btn-icon" title="새로고침">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                  </svg>
+                </button>
               </div>
             </div>
           )}
@@ -356,8 +366,13 @@ function MProjectPage({ config }) {
                       <span className="summary-value grade-badge">{result.grade}</span>
                     </div>
                     <div className="summary-row total-row">
-                      <span className="summary-label">지원금액</span>
-                      <span className="summary-value amount">{formatNumber(Math.floor(result.total / 10000))} 만원</span>
+                      <span className="summary-label">총지원금액</span>
+                      <span className="summary-value amount">
+                        {formatNumber(Math.floor(result.total / 10000))}만원
+                        <span className="monthly-breakdown">
+                          ({formatNumber(Math.floor(result.total / 12 / 10000))}만원 X 12개월)
+                        </span>
+                      </span>
                     </div>
                     {result.bonusApplied && (
                       <div className="summary-row">
@@ -389,7 +404,11 @@ function MProjectPage({ config }) {
                 </div>
               </div>
 
-              <button onClick={handleReset} className="btn-secondary btn-large">다시하기</button>
+              <button onClick={handleReset} className="btn-secondary btn-large btn-icon" title="새로고침">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                </svg>
+              </button>
             </div>
           )}
         </div>
@@ -409,12 +428,62 @@ function MProjectPage({ config }) {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>알림</h3>
+              <button className="btn-close" onClick={closeModal}>×</button>
             </div>
             <div className="modal-body">
               <p>{modalMessage}</p>
             </div>
-            <div className="modal-footer">
-              <button className="btn-primary" onClick={closeModal}>확인</button>
+          </div>
+        </div>
+      )}
+
+      {/* 그레이드 기준 모달 */}
+      {showGradeModal && (
+        <div className="modal-overlay" onClick={() => setShowGradeModal(false)}>
+          <div className="modal-content modal-content-wide" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Grade 기준</h3>
+              <button className="btn-close" onClick={() => setShowGradeModal(false)}>×</button>
+            </div>
+            <div className="modal-body modal-body-scrollable">
+              {config?.mProject?.gradeCriteria && config.mProject.gradeCriteria.map(item => {
+                // 해당 직급의 지원금 데이터 찾기
+                const supportData = config?.mProject?.supportCriteria?.find(
+                  s => s.position === item.position
+                );
+
+                return (
+                  <div key={item.position} className="grade-criteria-section">
+                    <h4 className="position-title">{item.position}</h4>
+                    <table className="grade-table">
+                      <thead>
+                        <tr>
+                          <th>등급</th>
+                          <th>산하조직소득</th>
+                          <th>총지원금액</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Object.entries(item.grades).sort((a, b) => {
+                          const order = { S: 0, A: 1, B: 2, C: 3 };
+                          return order[a[0]] - order[b[0]];
+                        }).map(([grade, income]) => {
+                          const totalSupport = supportData?.supports?.[grade]?.total || 0;
+                          return (
+                            <tr key={grade}>
+                              <td className="grade-cell">
+                                <span className={`grade-badge-modal grade-${grade}`}>{grade}</span>
+                              </td>
+                              <td className="income-cell">{formatNumber(Math.floor(income / 10000))} 만원</td>
+                              <td className="support-cell">{formatNumber(Math.floor(totalSupport / 10000))} 만원</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
