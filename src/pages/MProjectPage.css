@@ -642,6 +642,13 @@
   transform: rotate(180deg);
 }
 
+/* Result Button Container */
+.result-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
 /* Step Title Container */
 .step-title-container {
   display: flex;
