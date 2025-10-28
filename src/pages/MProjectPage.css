@@ -657,6 +657,9 @@
   gap: 1rem;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .step-title-container .step-title {
@@ -1044,6 +1047,10 @@
   .step-title-container {
     gap: 0.5rem;
     flex-wrap: wrap;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.5rem;
   }
 
   .step-title-container .step-title {
