@@ -11,25 +11,32 @@ function UserPage({ config }) {
   const [result, setResult] = useState(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const [showOptionSelection, setShowOptionSelection] = useState(false);
+  const [incomeError, setIncomeError] = useState(false);
 
   const handleIncomeChange = (e) => {
     const value = e.target.value.replace(/,/g, '');
     if (value === '' || /^\d+$/.test(value)) {
       setIncome(value);
       setDisplayIncome(value ? formatNumber(value) : '');
+      if (incomeError) setIncomeError(false);
     }
   };
 
   const handleIncomeSubmit = (e) => {
     e.preventDefault();
-    if (income && Number(income) >= 0) {
-      // 💡 입력된 금액(만원 단위)을 원단위로 변환
-      const incomeInWon = Number(income) * 10000;
-      const calculationResult = calculateSupport(incomeInWon, config);
-      setResult(calculationResult);
-      setStep(2);
-      setShowOptionSelection(true);
+    if (!income || Number(income) < 0) {
+      setIncomeError(true);
+      const inputElement = document.querySelector('input[type="text"]');
+      if (inputElement) inputElement.focus();
+      return;
     }
+
+    // 💡 입력된 금액(만원 단위)을 원단위로 변환
+    const incomeInWon = Number(income) * 10000;
+    const calculationResult = calculateSupport(incomeInWon, config);
+    setResult(calculationResult);
+    setStep(2);
+    setShowOptionSelection(true);
   };
 
   const handleOptionChange = (e) => {
@@ -54,6 +61,7 @@ function UserPage({ config }) {
     setResult(null);
     setIsCalculating(false);
     setShowOptionSelection(false);
+    setIncomeError(false);
   };
 
   const getSelectedOptionInfo = () => {
@@ -97,10 +105,10 @@ function UserPage({ config }) {
                     value={displayIncome}
                     onChange={handleIncomeChange}
                     placeholder="0"
-                    className="text-input"
-                    required
+                    className={`text-input ${incomeError ? 'input-error' : ''}`}
                   />
                   <span className="input-suffix">만원</span>
+                  {incomeError && <span className="error-message">연소득을 입력해주세요</span>}
                 </div>
                 <button type="submit" className="btn-primary btn-large">지원금 확인</button>
               </form>

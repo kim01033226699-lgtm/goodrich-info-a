@@ -9,7 +9,7 @@
 .menu-header {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
   color: white;
-  padding: 4rem 0;
+  padding: 3rem 0;
   text-align: center;
   box-shadow: var(--shadow-md);
 }
@@ -43,8 +43,8 @@
 /* Menu Box */
 .menu-box {
   background: var(--bg-color);
-  border-radius: 16px;
-  padding: 3rem 2rem;
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
   box-shadow: var(--shadow-lg);
   transition: all 0.3s ease;
   cursor: pointer;
@@ -71,8 +71,8 @@
 }
 
 .menu-box:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
 
 .menu-box.disabled {

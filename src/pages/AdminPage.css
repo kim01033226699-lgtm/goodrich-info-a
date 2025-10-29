@@ -33,13 +33,14 @@
 .btn-preview,
 .btn-copy,
 .btn-download {
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   border: none;
   cursor: pointer;
+  box-shadow: var(--shadow);
 }
 
 .btn-back {
@@ -96,7 +97,7 @@
   position: sticky;
   top: 2rem;
   background: var(--bg-color);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 1rem;
   box-shadow: var(--shadow-md);
   display: flex;
@@ -109,10 +110,10 @@
   color: var(--text-color);
   text-align: left;
   padding: 0.875rem 1rem;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   border: none;
   cursor: pointer;
 }
@@ -147,7 +148,7 @@
 .admin-content {
   flex: 1;
   background: var(--bg-color);
-  border-radius: 12px;
+  border-radius: 20px;
   padding: 2rem;
   box-shadow: var(--shadow-md);
 }
@@ -171,13 +172,14 @@
 .btn-add {
   background: var(--secondary-color);
   color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
 }
 
 .btn-add:hover {
@@ -194,10 +196,11 @@
 
 .item-card {
   background: var(--bg-light);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1.5rem;
+  border: none;
+  border-radius: 16px;
+  padding: 2rem;
   position: relative;
+  box-shadow: var(--shadow);
 }
 
 .item-fields {
@@ -226,19 +229,20 @@
 .field input[type="text"],
 .field input[type="number"],
 .field textarea {
-  padding: 0.75rem;
+  padding: 0.875rem;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 0.95rem;
   background: var(--bg-color);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .field input[type="text"]:focus,
 .field input[type="number"]:focus,
 .field textarea:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(255, 156, 0, 0.1);
 }
 
 .field textarea {
@@ -256,17 +260,18 @@
 
 .btn-delete {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1.5rem;
+  right: 1.5rem;
   background: #ef4444;
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.625rem 1.25rem;
+  border-radius: 10px;
   font-size: 0.875rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
 }
 
 .btn-delete:hover {

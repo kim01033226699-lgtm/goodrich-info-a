@@ -44,11 +44,16 @@ function MProjectPage({ config }) {
 
   // Step 3 결과
   const [result, setResult] = useState(null);
-  
+
   // 모달 상태
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [showGradeModal, setShowGradeModal] = useState(false);
+
+  // 에러 상태
+  const [positionError, setPositionError] = useState(false);
+  const [membersError, setMembersError] = useState(false);
+  const [teamIncomeError, setTeamIncomeError] = useState(false);
 
   const handleIncomeChange = (e, setter, displaySetter) => {
     const value = e.target.value.replace(/,/g, '');
@@ -62,8 +67,30 @@ function MProjectPage({ config }) {
 
   const checkQualification = () => {
     // 요청사항: 위임직급, 동반위촉, 산하조직소득 합계만으로 계산
-    if (!position || !members || !teamIncome) {
-      alert('위임 직급, 동반위촉 인원, 산하조직소득합계를 입력해주세요.');
+    let hasError = false;
+
+    if (!position) {
+      setPositionError(true);
+      hasError = true;
+    }
+    if (!members) {
+      setMembersError(true);
+      hasError = true;
+    }
+    if (!teamIncome) {
+      setTeamIncomeError(true);
+      hasError = true;
+    }
+
+    if (hasError) {
+      // 첫 번째 에러 필드로 포커스 이동
+      if (!position) {
+        document.querySelector('select[name="position"]')?.focus();
+      } else if (!members) {
+        document.querySelector('input[name="members"]')?.focus();
+      } else if (!teamIncome) {
+        document.querySelector('input[name="teamIncome"]')?.focus();
+      }
       return;
     }
 
@@ -119,8 +146,13 @@ function MProjectPage({ config }) {
 
     // C등급은 미달 처리
     if (calculatedGrade === 'C') {
-      setModalMessage('당사 Grade규정에 맞지 않습니다. 소득을 확인해 주세요.');
+      setTeamIncomeError(true);
+      setModalMessage('당사 Grade규정에 맞지 않습니다. 기준을 확인하시거나 소득을 수정해 주세요.');
       setShowModal(true);
+      // 모달 닫힌 후 포커스 이동을 위한 타이머
+      setTimeout(() => {
+        document.querySelector('input[name="teamIncome"]')?.focus();
+      }, 100);
       return;
     }
 
@@ -166,11 +198,20 @@ function MProjectPage({ config }) {
     setResult(null);
     setShowModal(false);
     setModalMessage('');
+    setPositionError(false);
+    setMembersError(false);
+    setTeamIncomeError(false);
   };
 
   const closeModal = () => {
     setShowModal(false);
     setModalMessage('');
+    // 모달 닫힌 후 에러가 있는 필드로 포커스 이동
+    setTimeout(() => {
+      if (teamIncomeError) {
+        document.querySelector('input[name="teamIncome"]')?.focus();
+      }
+    }, 100);
   };
 
   if (!config) {
@@ -218,12 +259,21 @@ function MProjectPage({ config }) {
 
               <div className="form-group">
                 <label>굿리치 위촉 직급</label>
-                <select value={position} onChange={(e) => setPosition(e.target.value)} className="select-input">
+                <select
+                  name="position"
+                  value={position}
+                  onChange={(e) => {
+                    setPosition(e.target.value);
+                    if (positionError) setPositionError(false);
+                  }}
+                  className={`select-input ${positionError ? 'input-error' : ''}`}
+                >
                   <option value="">선택하세요</option>
                   <option value="본부장">본부장</option>
                   <option value="사업단장">사업단장</option>
                   <option value="지점장">지점장</option>
                 </select>
+                {positionError && <span className="error-message">위촉 직급을 선택해주세요</span>}
               </div>
 
               {/* 경력/경력기간 입력 제거 (요청사항) */}
@@ -233,10 +283,14 @@ function MProjectPage({ config }) {
                 <div className="input-with-suffix">
                   <input
                     type="number"
+                    name="members"
                     value={members}
-                    onChange={(e) => setMembers(e.target.value)}
+                    onChange={(e) => {
+                      setMembers(e.target.value);
+                      if (membersError) setMembersError(false);
+                    }}
                     placeholder="0"
-                    className="text-input"
+                    className={`text-input ${membersError ? 'input-error' : ''}`}
                     min="0"
                   />
                   <span className="input-suffix">명</span>
@@ -244,7 +298,10 @@ function MProjectPage({ config }) {
                     <button
                       type="button"
                       className="arrow-btn up"
-                      onClick={() => setMembers(prev => Math.max(0, Number(prev) + 1))}
+                      onClick={() => {
+                        setMembers(prev => Math.max(0, Number(prev) + 1));
+                        if (membersError) setMembersError(false);
+                      }}
                       tabIndex="-1"
                     >▲</button>
                     <button
@@ -255,6 +312,7 @@ function MProjectPage({ config }) {
                     >▼</button>
                   </div>
                 </div>
+                {membersError && <span className="error-message">동반위촉 인원을 입력해주세요</span>}
               </div>
 
               <div className="form-group">
@@ -302,12 +360,16 @@ function MProjectPage({ config }) {
                 <div className="input-with-suffix">
                   <input
                     type="text"
+                    name="teamIncome"
                     inputMode="numeric"
                     pattern="[0-9,]*"
                     value={displayTeamIncome}
-                    onChange={(e) => handleIncomeChange(e, setTeamIncome, setDisplayTeamIncome)}
+                    onChange={(e) => {
+                      handleIncomeChange(e, setTeamIncome, setDisplayTeamIncome);
+                      if (teamIncomeError) setTeamIncomeError(false);
+                    }}
                     placeholder="0"
-                    className="text-input"
+                    className={`text-input ${teamIncomeError ? 'input-error' : ''}`}
                   />
                   <span className="input-suffix">만원</span>
                   <div className="input-arrows">
@@ -319,6 +381,7 @@ function MProjectPage({ config }) {
                         const newValue = currentValue + 1000; // 천만원 단위
                         setTeamIncome(newValue.toString());
                         setDisplayTeamIncome(formatNumber(newValue));
+                        if (teamIncomeError) setTeamIncomeError(false);
                       }}
                       tabIndex="-1"
                     >▲</button>
@@ -335,6 +398,7 @@ function MProjectPage({ config }) {
                     >▼</button>
                   </div>
                 </div>
+                {teamIncomeError && <span className="error-message">산하조직소득합계를 입력해주세요</span>}
               </div>
 
               {/* 체크박스 섹션 제거 (요청사항) */}
