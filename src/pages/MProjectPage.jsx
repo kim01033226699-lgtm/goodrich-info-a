@@ -147,7 +147,7 @@ function MProjectPage({ config }) {
     // C등급은 미달 처리
     if (calculatedGrade === 'C') {
       setTeamIncomeError(true);
-      setModalMessage('당사 Grade규정에 맞지 않습니다. 기준을 확인하시거나 소득을 수정해 주세요.');
+      setModalMessage('당사 Grade규정에 맞지 않습니다. 기준을 확인하시고 소득을 수정해 주세요.');
       setShowModal(true);
       // 모달 닫힌 후 포커스 이동을 위한 타이머
       setTimeout(() => {
