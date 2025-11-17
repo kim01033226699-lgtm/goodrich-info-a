@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import MenuPage from './pages/MenuPage';
 import UserPage from './pages/UserPage';
+import ActivityFeePage from './pages/ActivityFeePage';
 import MProjectPage from './pages/MProjectPage';
 import AdminPage from './pages/AdminPage';
 import './App.css';
@@ -50,6 +51,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MenuPage />} />
         <Route path="/settlement-education" element={<UserPage config={config} />} />
+        <Route path="/activity-fee" element={<ActivityFeePage />} />
         <Route path="/m-project" element={<MProjectPage config={config} />} />
         <Route path="/djemals" element={<AdminPage config={config} onUpdateConfig={updateConfig} />} />
       </Routes>

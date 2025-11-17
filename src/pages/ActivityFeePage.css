@@ -1,0 +1,343 @@
+.activity-fee-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+  color: white;
+  padding: 2.5rem 0;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  margin-bottom: 1rem;
+}
+
+.header-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.home-link {
+  display: inline-block;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 3rem 0;
+  background: var(--bg-light);
+}
+
+/* 제도 공통 사항 */
+.info-section {
+  background: var(--bg-color);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.common-info {
+  border-left: 6px solid var(--primary-color);
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-list li {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  position: relative;
+  padding-left: 2rem;
+}
+
+.info-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0.5rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.highlight-blue {
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+/* 활동수수료 카드 섹션 */
+.fee-cards-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.fee-card {
+  background: var(--bg-color);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+}
+
+.fee-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+}
+
+.fee-card-type1 {
+  border-top: 6px solid #3b82f6;
+}
+
+.fee-card-type2 {
+  border-top: 6px solid #ef4444;
+}
+
+.fee-card-header {
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+}
+
+.fee-card-type2 .fee-card-header {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+}
+
+.fee-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.fee-card-body {
+  padding: 2rem;
+}
+
+/* 심플한 정보 표시 */
+.fee-info-simple {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.fee-info-simple p {
+  font-size: 1.05rem;
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.fee-info-simple .highlight {
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+.fee-card-type2 .fee-info-simple .highlight {
+  color: #ef4444;
+}
+
+/* 예시 섹션 - 심플하게 */
+.fee-example {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.example-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.example-simple {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.example-simple p {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 필수 안내 */
+.notice-section {
+  background: rgba(251, 146, 60, 0.1);
+  border: 2px solid rgba(251, 146, 60, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.notice-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(251, 146, 60, 0.3);
+}
+
+.notice-icon {
+  font-size: 1.75rem;
+}
+
+.notice-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.notice-content {
+  font-size: 1rem;
+  color: var(--text-color);
+  line-height: 1.8;
+  text-align: left;
+}
+
+.notice-content p {
+  margin: 0.5rem 0;
+}
+
+/* Footer */
+.footer {
+  background: var(--text-color);
+  color: white;
+  padding: 2rem 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+.footer p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .fee-cards-section {
+    grid-template-columns: 1fr;
+  }
+
+  .info-section {
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .info-list li {
+    font-size: 0.95rem;
+  }
+
+  .fee-card-title {
+    font-size: 1.25rem;
+  }
+
+  .fee-info-simple p {
+    font-size: 0.95rem;
+  }
+
+  .example-simple p {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .fee-cards-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .fee-card-body {
+    padding: 1.5rem;
+  }
+
+  .notice-section {
+    padding: 1.5rem;
+  }
+}
