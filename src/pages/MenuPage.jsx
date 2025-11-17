@@ -72,8 +72,8 @@ function MenuPage() {
       {/* Footer */}
       <footer className="menu-footer">
         <div className="container">
-          <p>&copy; 2025 굿리치 영업지원 시스템. All rights reserved.</p>
-          <p style={{fontSize: '0.875rem', marginTop: '0.5rem'}}>모든 정보는 내부 교육 자료이며, 무단 전재 및 배포를 금지합니다. 정확한 금액, 기준은 규정을 따르며 본 안내와 다를 수 있습니다. </p>
+          <p>&copy; 2025 굿리치 정착지원. All rights reserved.</p>
+          <p style={{fontSize: '0.875rem', marginTop: '0.5rem'}}>모든 정보는 내부 교육 자료이며, 무단 전재 및 배포를 금지합니다. 정확한 금액, 기준은 내부 규정을 따르며 본 안내와 다를 수 있으며 규정과 상이한 정보의 확인 책임은 사용자에게 있습니다. </p>
         </div>
       </footer>
     </div>
