@@ -215,6 +215,11 @@
   margin-top: 1.5rem;
 }
 
+.refund-highlight {
+  font-weight: 700;
+  color: #ef4444;
+}
+
 /* Footer */
 .footer {
   background: var(--text-color);

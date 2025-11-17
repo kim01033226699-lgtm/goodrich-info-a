@@ -67,8 +67,8 @@ function ActivityFeeDetailPage() {
               <p>- 월 정산평가업적 50만원 이상 시 지급</p>
               <p>- 위촉 의무기간: 36개월</p>
               <p className="notice-subtitle notice-subtitle-margin">환수</p>
-              <p>- 36개월 이내 해촉 시 지원금 전액 환수</p>
-              <p>- 미유지 계약 발생 시 정산환수율에 따라 환수 적용</p>
+              <p>- 36개월 이내 해촉 시 지원금 전액 <span className="refund-highlight">환수</span></p>
+              <p>- 미유지 계약 발생 시 정산<span className="refund-highlight">환수</span>율에 따라 <span className="refund-highlight">환수</span> 적용</p>
             </div>
           </div>
         </div>
