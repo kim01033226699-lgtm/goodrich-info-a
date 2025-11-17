@@ -1,0 +1,263 @@
+.activity-fee-detail-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+  color: white;
+  padding: 2.5rem 0;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  margin-bottom: 1rem;
+}
+
+.header-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.back-link,
+.home-link {
+  display: inline-block;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.back-link:hover,
+.home-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 3rem 0;
+  background: var(--bg-light);
+}
+
+/* Detail Card */
+.detail-card {
+  background: var(--bg-color);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+  border-top: 6px solid #3b82f6;
+}
+
+.detail-card-type1 {
+  border-top-color: #3b82f6;
+}
+
+.detail-card-type2 {
+  border-top-color: #ef4444;
+}
+
+.detail-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.detail-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detail-info p {
+  font-size: 1.26rem;
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.detail-info .highlight {
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+.detail-card-type2 .detail-info .highlight {
+  color: #ef4444;
+}
+
+/* Example Card - 별도 카드 */
+.example-card {
+  background: var(--bg-color);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+  border-top: 6px solid #3b82f6;
+}
+
+.example-card-type1 {
+  border-top-color: #3b82f6;
+}
+
+.example-card-type2 {
+  border-top-color: #ef4444;
+}
+
+.example-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.example-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.example-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.example-body p {
+  font-size: 1.14rem;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 필수 안내 */
+.notice-section {
+  background: rgba(251, 146, 60, 0.1);
+  border: 2px solid rgba(251, 146, 60, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.notice-header {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(251, 146, 60, 0.3);
+  text-align: left;
+}
+
+.notice-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+  text-align: left;
+}
+
+.notice-content {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  line-height: 1.8;
+  text-align: left;
+}
+
+.notice-content p {
+  margin: 0.5rem 0;
+}
+
+.notice-subtitle {
+  font-weight: 700;
+  font-size: 1.32rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.notice-subtitle-margin {
+  margin-top: 1.5rem;
+}
+
+/* Footer */
+.footer {
+  background: var(--text-color);
+  color: white;
+  padding: 2rem 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+.footer p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .detail-card,
+  .example-card {
+    padding: 1.5rem;
+  }
+
+  .detail-title,
+  .example-title {
+    font-size: 1.3rem;
+  }
+
+  .detail-info p {
+    font-size: 1.14rem;
+  }
+
+  .example-body p {
+    font-size: 1.05rem;
+  }
+
+  .notice-subtitle {
+    font-size: 1.2rem;
+  }
+}

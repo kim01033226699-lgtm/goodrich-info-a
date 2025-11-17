@@ -12,8 +12,8 @@ function MenuPage() {
     },
     {
       id: 2,
-      title: '활동수수료 안내',
-      description: '활동수수료 I,II',
+      title: '활동수수료',
+      description: '활동수수료 I,II 제도 안내',
       path: '/activity-fee',
       available: true
     },
