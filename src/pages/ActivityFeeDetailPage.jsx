@@ -35,7 +35,18 @@ function ActivityFeeDetailPage() {
               <div className="detail-info">
                 <p>* 지급기간: <span className="highlight">{isType1 ? '12개월' : '24개월'}</span></p>
                 <p>* 지급률: 정산평가업적 대비 <span className="highlight">{isType1 ? '50%' : '100%'}</span></p>
-                <p>* {isType1 ? '총 지원한도' : '지원 한도'}: <span className="highlight">{isType1 ? '2,000만원' : '사전 협의'}</span></p>
+                <p>
+                  * {isType1 ? '총 지원한도' : '지원 한도'}:{' '}
+                  <span className="highlight">
+                    {isType1 ? '2,000만원' : '정착교육비 지원 한도 내'}
+                  </span>
+                  {!isType1 && (
+                    <Link to="/settlement-education" className="detail-link">
+                      <span className="detail-link-icon" aria-hidden="true">👉</span>
+                      한도확인하기
+                    </Link>
+                  )}
+                </p>
               </div>
             </div>
           </div>

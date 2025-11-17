@@ -123,6 +123,30 @@
   color: #ef4444;
 }
 
+.detail-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  color: #3b82f6;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.detail-card-type2 .detail-link {
+  color: #ef4444;
+}
+
+.detail-link:hover {
+  opacity: 0.85;
+}
+
+.detail-link-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
 /* Example Card - 별도 카드 */
 .example-card {
   background: var(--bg-color);
