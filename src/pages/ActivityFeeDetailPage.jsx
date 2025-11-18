@@ -1,9 +1,65 @@
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { calculateSupport, formatCurrency, formatNumber } from '../utils/calculator';
 import './ActivityFeeDetailPage.css';
 
-function ActivityFeeDetailPage() {
+function ActivityFeeDetailPage({ config }) {
   const { type } = useParams();
   const isType1 = type === 'type1';
+
+  // 모달 상태
+  const [showModal, setShowModal] = useState(false);
+  const [income, setIncome] = useState('');
+  const [displayIncome, setDisplayIncome] = useState('');
+  const [result, setResult] = useState(null);
+  const [incomeError, setIncomeError] = useState(false);
+
+  // 소득 입력 핸들러
+  const handleIncomeChange = (e) => {
+    const value = e.target.value.replace(/,/g, '');
+    if (value === '' || /^\d+$/.test(value)) {
+      setIncome(value);
+      setDisplayIncome(value ? formatNumber(value) : '');
+      if (incomeError) setIncomeError(false);
+    }
+  };
+
+  // 지원금 확인 핸들러
+  const handleIncomeSubmit = (e) => {
+    e.preventDefault();
+    if (!income || Number(income) < 0) {
+      setIncomeError(true);
+      return;
+    }
+
+    if (!config) {
+      alert('설정을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
+      return;
+    }
+
+    const incomeInWon = Number(income) * 10000;
+    const calculationResult = calculateSupport(incomeInWon, config);
+    setResult(calculationResult);
+  };
+
+  // 모달 닫기
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setIncome('');
+    setDisplayIncome('');
+    setResult(null);
+    setIncomeError(false);
+  };
+
+  // 모달 열기
+  const handleOpenModal = (e) => {
+    e.preventDefault();
+    if (!config) {
+      alert('설정을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
+      return;
+    }
+    setShowModal(true);
+  };
 
   return (
     <div className="activity-fee-detail-page">
@@ -41,10 +97,10 @@ function ActivityFeeDetailPage() {
                     {isType1 ? '2,000만원' : '정착교육비 지원 한도 내'}
                   </span>
                   {!isType1 && (
-                    <Link to="/settlement-education" className="detail-link">
+                    <button onClick={handleOpenModal} className="detail-link">
                       <span className="detail-link-icon" aria-hidden="true">👉</span>
                       한도확인하기
-                    </Link>
+                    </button>
                   )}
                 </p>
               </div>
@@ -88,12 +144,52 @@ function ActivityFeeDetailPage() {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2025 굿리치 영업지원 시스템. All rights reserved.</p>
-          <p style={{fontSize: '0.875rem', marginTop: '0.5rem'}}>
-            모든 정보는 내부 교육 자료이며, 무단 전재 및 배포를 금지합니다. 정확한 금액, 기준은 규정을 따르며 본 안내와 다를 수 있습니다.
-          </p>
+          <p>무단복제금지. 요약내용으로 규정 확인 바람</p>
         </div>
       </footer>
+
+      {/* 지원금 확인 모달 */}
+      {showModal && (
+        <div className="modal-overlay" onClick={handleCloseModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2 className="modal-title">정착교육비 지원금 확인</h2>
+              <button className="modal-close" onClick={handleCloseModal}>✕</button>
+            </div>
+
+            <div className="modal-body">
+              <form onSubmit={handleIncomeSubmit} className="modal-form">
+                <div className="form-group">
+                  <label className="form-label">본인 연소득</label>
+                  <div className="input-row">
+                    <div className="input-wrapper">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9,]*"
+                        value={displayIncome}
+                        onChange={handleIncomeChange}
+                        placeholder="0"
+                        className={`modal-input ${incomeError ? 'input-error' : ''}`}
+                        autoFocus
+                      />
+                      <span className="input-suffix">만원</span>
+                    </div>
+                    <button type="submit" className="modal-btn-primary">확인</button>
+                  </div>
+                  {incomeError && <span className="error-message">연소득을 입력해주세요</span>}
+                </div>
+              </form>
+
+              {result && (
+                <div className="modal-result">
+                  <div className="result-amount">{formatCurrency(result.amount)}</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
