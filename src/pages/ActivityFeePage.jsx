@@ -98,7 +98,7 @@ function ActivityFeePage({ config }) {
           {/* 세부 정보 */}
           <div className={`detail-card ${isType1 ? 'detail-card-type1' : 'detail-card-type2'}`}>
             <div className="detail-header">
-              <h2 className="detail-title">세부 내역</h2>
+              <h2 className="detail-title">지원내용</h2>
             </div>
             <div className="detail-body">
               <div className="detail-info">
