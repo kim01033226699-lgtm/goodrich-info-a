@@ -70,7 +70,7 @@ function ActivityFeeDetailPage({ config }) {
             {isType1 ? '활동수수료 I' : '활동수수료 II'}
           </h1>
           <p className="subtitle">
-            {isType1 ? '소득무관 · 12개월 50% 지급형' : '소득 2천만 원 이상 · 24개월 100% 지급형'}
+            {isType1 ? '소득무관' : '소득 2천만원이상'}
           </p>
           <div className="header-links">
             <Link to="/activity-fee" className="back-link">← 뒤로</Link>
@@ -97,9 +97,8 @@ function ActivityFeeDetailPage({ config }) {
                     {isType1 ? '2,000만원' : '정착교육비 지원 한도 내'}
                   </span>
                   {!isType1 && (
-                    <button onClick={handleOpenModal} className="detail-link">
-                      <span className="detail-link-icon" aria-hidden="true">👉</span>
-                      한도확인하기
+                    <button onClick={handleOpenModal} className="check-limit-button">
+                      내 한도 확인하기
                     </button>
                   )}
                 </p>
@@ -110,16 +109,16 @@ function ActivityFeeDetailPage({ config }) {
           {/* 활동수수료 예시 - 별도 카드 */}
           <div className={`example-card ${isType1 ? 'example-card-type1' : 'example-card-type2'}`}>
             <div className="example-header">
-              <h2 className="example-title">{isType1 ? '활동수수료 I' : '활동수수료 II'} 예시</h2>
+              <h2 className="example-title">{isType1 ? '활동수수료 예시 I(50%지급형)' : '활동수수료 II(100%지급형) 예시'}</h2>
             </div>
             <div className="example-body">
               {isType1 ? (
                 <>
-                  <p>* 정산평가업적 매월 330만원 → 165만원 × 12개월 = 1,980만원</p>
-                  <p>* 정산평가업적 매월 350만원 → 175만원 × 11개월 = 1,925만원 + 12개월차 75만원(한도 2,000만원 적용)</p>
+                  <p>* 정산평가업적 매월 100만원 → 50만원 × 12개월 = 600만원</p>
+                  <p>* 누적 지급 한도 2천만 내</p>
                 </>
               ) : (
-                <p>* 정산평가업적 매월 330만원 → 165만원 × 24개월 = 3,960만원 (단, 사전에 지급한도 내에서 지급)</p>
+                <p>정산평가업적 매월 100만원 → 100만원 × 24개월 = 2,400만원 (단 지급한도 내에서 지급)</p>
               )}
             </div>
           </div>

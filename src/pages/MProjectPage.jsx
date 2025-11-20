@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { formatCurrency, formatNumber } from '../utils/calculator';
+import BottomNavigation from '../components/BottomNavigation';
 import './MProjectPage.css';
 
 function MProjectPage({ config }) {
@@ -553,6 +554,16 @@ function MProjectPage({ config }) {
           </div>
         </div>
       )}
+
+      {/* 모바일 하단 네비게이션 */}
+      <BottomNavigation
+        items={[
+          { label: '지원금', icon: '💰', url: '/goodrich-info-a/', path: '/goodrich-info-a' },
+          { label: '금융캠퍼스', icon: '🎓', url: 'https://kim01033226699-lgtm.github.io/gfe', path: '/gfe' },
+          { label: '스마트위촉', icon: '📋', url: 'https://kim01033226699-lgtm.github.io/appoint_info/', path: '/appoint_info' }
+        ]}
+        currentPath="/goodrich-info-a/m-project"
+      />
     </div>
   );
 }

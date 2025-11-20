@@ -5,6 +5,7 @@ import UserPage from './pages/UserPage';
 import ActivityFeePage from './pages/ActivityFeePage';
 import MProjectPage from './pages/MProjectPage';
 import AdminPage from './pages/AdminPage';
+import SmartLinkPage from './pages/SmartLinkPage';
 import './App.css';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
     <Router basename="/goodrich-info-a">
       <Routes>
         <Route path="/" element={<MenuPage />} />
+        <Route path="/smart-link" element={<SmartLinkPage />} />
         <Route path="/settlement-education" element={<UserPage config={config} />} />
         <Route path="/activity-fee" element={<ActivityFeePage config={config} />} />
         <Route path="/m-project" element={<MProjectPage config={config} />} />

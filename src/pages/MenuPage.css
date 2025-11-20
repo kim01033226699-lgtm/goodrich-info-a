@@ -5,6 +5,13 @@
   background: var(--bg-light);
 }
 
+/* 모바일에서 하단 네비게이션을 위한 여백 */
+@media (max-width: 768px) {
+  .menu-page {
+    padding-bottom: 64px;
+  }
+}
+
 /* Header */
 .menu-header {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);

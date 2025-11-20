@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import './MenuPage.css';
+import BottomNavigation from '../components/BottomNavigation';
 
 function MenuPage() {
   const menus = [
@@ -23,6 +24,28 @@ function MenuPage() {
       description: '위임 자격 및 지원금 계산',
       path: '/m-project',
       available: true
+    }
+  ];
+
+  // 하단 네비게이션 메뉴 아이템
+  const navItems = [
+    {
+      label: '지원금',
+      icon: '💰',
+      url: '/goodrich-info-a/',
+      path: '/goodrich-info-a'
+    },
+    {
+      label: '금융캠퍼스',
+      icon: '🎓',
+      url: 'https://kim01033226699-lgtm.github.io/gfe',
+      path: '/gfe'
+    },
+    {
+      label: '스마트위촉',
+      icon: '📋',
+      url: 'https://kim01033226699-lgtm.github.io/appoint_info/',
+      path: '/appoint_info'
     }
   ];
 
@@ -75,6 +98,9 @@ function MenuPage() {
           <p>무단복제금지. 요약내용으로 규정 확인 바람</p>
         </div>
       </footer>
+
+      {/* 모바일 하단 네비게이션 */}
+      <BottomNavigation items={navItems} currentPath="/goodrich-info-a" />
     </div>
   );
 }

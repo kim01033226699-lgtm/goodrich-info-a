@@ -71,15 +71,15 @@
   padding: 2.5rem;
   margin-bottom: 2rem;
   box-shadow: var(--shadow-lg);
-  border-top: 6px solid #3b82f6;
+  border-top: 6px solid #fb923c;
 }
 
 .detail-card-type1 {
-  border-top-color: #3b82f6;
+  border-top-color: #fb923c;
 }
 
 .detail-card-type2 {
-  border-top-color: #ef4444;
+  border-top-color: #00a874;
 }
 
 .detail-header {
@@ -115,12 +115,12 @@
 }
 
 .detail-info .highlight {
-  color: #3b82f6;
+  color: #fb923c;
   font-weight: 700;
 }
 
 .detail-card-type2 .detail-info .highlight {
-  color: #ef4444;
+  color: #00a874;
 }
 
 .detail-link {
@@ -129,7 +129,7 @@
   gap: 0.35rem;
   margin-left: 0.5rem;
   font-size: 1rem;
-  color: #3b82f6;
+  color: #fb923c;
   font-weight: 600;
   text-decoration: underline;
   background: none;
@@ -140,7 +140,7 @@
 }
 
 .detail-card-type2 .detail-link {
-  color: #ef4444;
+  color: #00a874;
 }
 
 .detail-link:hover {
@@ -152,6 +152,32 @@
   line-height: 1;
 }
 
+.check-limit-button {
+  display: inline-block;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: white;
+  background: #00a874;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 168, 116, 0.3);
+}
+
+.check-limit-button:hover {
+  background: #008f63;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 168, 116, 0.4);
+}
+
+.check-limit-button:active {
+  transform: translateY(0);
+}
+
 /* Example Card - 별도 카드 */
 .example-card {
   background: var(--bg-color);
@@ -159,15 +185,15 @@
   padding: 2.5rem;
   margin-bottom: 2rem;
   box-shadow: var(--shadow-lg);
-  border-top: 6px solid #3b82f6;
+  border-top: 6px solid #fb923c;
 }
 
 .example-card-type1 {
-  border-top-color: #3b82f6;
+  border-top-color: #fb923c;
 }
 
 .example-card-type2 {
-  border-top-color: #ef4444;
+  border-top-color: #00a874;
 }
 
 .example-header {
