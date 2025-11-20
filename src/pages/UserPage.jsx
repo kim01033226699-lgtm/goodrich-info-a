@@ -260,7 +260,6 @@ function UserPage({ config }) {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>무단복제금지. 요약내용으로 규정 확인 바람</p>
         </div>
       </footer>
 
