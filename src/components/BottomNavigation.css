@@ -20,7 +20,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 56px;
+  height: 62px;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
@@ -119,7 +119,7 @@
 /* 작은 화면 (375px 이하는 최소 크기 유지) */
 @media (max-width: 480px) {
   .bottom-nav-container {
-    height: 52px;
+    height: 57px;
   }
 
   .bottom-nav-item {
