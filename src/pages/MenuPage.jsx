@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './MenuPage.css';
-import BottomNavigation from '../components/BottomNavigation';
+// import BottomNavigation from '../components/BottomNavigation';
 
 function MenuPage() {
   const menus = [
@@ -99,7 +99,7 @@ function MenuPage() {
       </footer>
 
       {/* 모바일 하단 네비게이션 */}
-      <BottomNavigation items={navItems} currentPath="/goodrich-info-a" />
+      {/* <BottomNavigation items={navItems} currentPath="/goodrich-info-a" /> */}
     </div>
   );
 }
